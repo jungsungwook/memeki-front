@@ -1,5 +1,6 @@
 import React from 'react';
 import { Global, css } from '@emotion/react';
+import theme from './theme';
 
 const GlobalStyle = () => {
   return (
@@ -149,6 +150,16 @@ const GlobalStyle = () => {
         }
         input {
           outline: none;
+          color: ${theme.palette.gray[500]};
+        }
+        input::-webkit-input-placeholder {
+          color: ${theme.palette.gray[400]};
+        }
+        input:-ms-input-placeholder {
+          color: ${theme.palette.gray[400]};
+        }
+        input::placeholder {
+          color: ${theme.palette.gray[400]};
         }
       `}
     />
