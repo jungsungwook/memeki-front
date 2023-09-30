@@ -66,7 +66,7 @@ export const Header = ({
     : ['밈문서', '대기문서', '로그인'];
   return (
     <Nav>
-      <img src={Logo} alt="logo" width={120} />
+      <img src={Logo} alt="memeki" width={120} />
       {search && <SearchBar />}
       <NavList>
         {typeArray.map((value) => (
