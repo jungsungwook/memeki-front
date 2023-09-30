@@ -53,7 +53,7 @@ export const theme: DefaultTheme = {
       white: '#ffffff',
     },
     semantic: {
-      placeholder: { 500: '#cbcbcb' },
+      background: '#faf9f8',
       success: { 500: '#59BA2C' },
       info: { 500: '#47C1FF' },
       warning: { 500: '#FFB200' },

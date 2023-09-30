@@ -11,7 +11,7 @@ export const SearchBar = ({ large }: { large?: boolean }) => {
         display: flex;
         align-items: center;
         gap: 3.2rem;
-        width: 100%;
+        width: ${large ? `100%` : `59.5rem`};
         padding: 0.8rem 1.6rem;
         border-radius: 0.5rem;
       `}
