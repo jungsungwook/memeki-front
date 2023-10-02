@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 /* eslint-disable */
 import { css } from '@emotion/react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ReactComponent as SearchIcon } from '../../assets/images/search.svg';
 import theme from '../../styles/theme';
 import Logo from '../../assets/images/logo.png';
@@ -10,6 +10,7 @@ import selectBoxArrow from '../../assets/images/selectBoxArrow.svg';
 import {
   ContainerType,
   SearchBarType,
+  SelectBoxType,
   SortButtonType,
 } from '../../types/globalType';
 import memeCertifyIcon from '../../assets/images/memeCertify.png';
@@ -18,6 +19,7 @@ import { ReactComponent as PopularIcon } from '../../assets/images/popular.svg';
 import { ReactComponent as GlobalIcon } from '../../assets/images/global.svg';
 import { ReactComponent as YearIcon } from '../../assets/images/year.svg';
 import selectOptions from '../../store/selectOptions';
+import { v4 } from 'uuid';
 
 export const SearchBar = ({ large }: SearchBarType) => {
   return (
@@ -134,8 +136,8 @@ export const MemeBoxList = ({ children }: ContainerType) => {
   );
 };
 
-export const SortButton = ({ type, select }: SortButtonType) => {
-  const color = select
+const SortButton = ({ type, isSelect, onClick }: SortButtonType) => {
+  const color = isSelect
     ? `${theme.palette.primary[500]}`
     : `${theme.palette.gray[500]}`;
   let imgIcon;
@@ -155,8 +157,10 @@ export const SortButton = ({ type, select }: SortButtonType) => {
     default: // do nothing;
       break;
   }
+
   return (
     <div
+      onClick={onClick}
       css={css`
         cursor: pointer;
         ${theme.typography.header1};
@@ -171,13 +175,65 @@ export const SortButton = ({ type, select }: SortButtonType) => {
   );
 };
 
+// todo. 렌더링 느림현상있음. 콘솔 warning 발생
+export const SortButtonList = ({ main }: { main?: boolean }) => {
+  const [firstCategory, setFirstCategory] = useState(true);
+  const [secondCategory, setSecondCategory] = useState(!firstCategory);
+  const [selectedOption, setSelectedOption] = useState<
+    'recent' | 'popular' | 'global' | 'year'
+  >(main ? 'recent' : 'global');
+
+  const handleToggleButton1 = () => {
+    setFirstCategory(true);
+    setSecondCategory(false);
+    setSelectedOption(main ? 'recent' : 'global');
+  };
+
+  const handleToggleButton2 = () => {
+    setSecondCategory(true);
+    setFirstCategory(false);
+    setSelectedOption(main ? 'popular' : 'year');
+  };
+
+  const buttonList: SortButtonType[] = [
+    {
+      key: main ? 'recent' : 'global',
+      type: main ? 'recent' : 'global',
+      isSelect: firstCategory,
+      onClick: handleToggleButton1,
+    },
+    {
+      key: main ? 'popular' : 'year',
+      type: main ? 'popular' : 'year',
+      isSelect: secondCategory,
+      onClick: handleToggleButton2,
+    },
+  ];
+  return (
+    <SpaceBox>
+      <div
+        css={css`
+          display: flex;
+          gap: 1.6rem;
+        `}
+      >
+        {buttonList.map((button) => (
+          <SortButton
+            key={button.key}
+            type={button.type}
+            isSelect={button.isSelect}
+            onClick={button.onClick}
+          />
+        ))}
+      </div>
+      {selectedOption !== 'recent' && <SelectBox type={selectedOption} />}
+    </SpaceBox>
+  );
+};
+
 export const SelectBox = ({
-  type,
-} // onClick,
-: {
-  type: 'popular' | 'global' | 'year';
-  // onClick?: any;
-}) => {
+  type, // onClick,
+}: SelectBoxType) => {
   const styles = {
     popular: css`
       width: 10.3rem;
@@ -191,8 +247,13 @@ export const SelectBox = ({
   };
   const [rotationDegree, setRotationDegree] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-  const options = selectOptions[type]; // 선택된 타입의 옵션객체들의 배열
-  const [selectedOption, setSelectedOption] = useState(options[0].name); // selectBox의 선택된 옵션 View
+  const [selectedOption, setSelectedOption] = useState(
+    selectOptions[type][0].name,
+  ); // selectBox의 선택된 옵션 View
+
+  useEffect(() => {
+    setSelectedOption(selectOptions[type][0].name);
+  }, [type]);
 
   const handleOptionClick = (optionName: any) => {
     setSelectedOption(optionName);
@@ -282,6 +343,23 @@ export const SelectBox = ({
           ))}
         </ul>
       )}
+    </div>
+  );
+};
+
+// 가로 사이의 간격을 멀게 하는 컴포넌트
+export const SpaceBox = ({ children }: ContainerType) => {
+  return (
+    <div
+      css={css`
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      `}
+    >
+      {children}
     </div>
   );
 };
