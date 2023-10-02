@@ -1,10 +1,12 @@
 /** @jsxImportSource @emotion/react */
+/* eslint-disable */
 import { css } from '@emotion/react';
 import { useState } from 'react';
 import { ReactComponent as SearchIcon } from '../../assets/images/search.svg';
 import theme from '../../styles/theme';
 import Logo from '../../assets/images/logo.png';
 import likeIcon from '../../assets/images/like.svg';
+import selectBoxArrow from '../../assets/images/selectBoxArrow.svg';
 import {
   ContainerType,
   SearchBarType,
@@ -171,16 +173,16 @@ export const SortButton = ({ type, select }: SortButtonType) => {
 
 export const SelectBox = ({
   type,
-  selectClick,
-  selectedOption,
-}: {
-  type: date | country | year;
+} // onClick,
+: {
+  type: 'popular' | 'global' | 'year';
+  // onClick?: any;
 }) => {
   const styles = {
-    date: css`
+    popular: css`
       width: 10.3rem;
     `,
-    country: css`
+    global: css`
       width: 10.3rem;
     `,
     year: css`
@@ -189,9 +191,12 @@ export const SelectBox = ({
   };
   const [rotationDegree, setRotationDegree] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const options = selectOptions[type]; // 선택된 타입의 옵션객체들의 배열
+  const [selectedOption, setSelectedOption] = useState(options[0].name); // selectBox의 선택된 옵션 View
 
-  const handleOptionClick = (optionName) => {
-    selectClick(optionName);
+  const handleOptionClick = (optionName: any) => {
+    setSelectedOption(optionName);
+    // onClick(optionName);
     setIsOpen(false);
   };
 
@@ -223,7 +228,7 @@ export const SelectBox = ({
         <div
           css={css`
             color: ${theme.palette.gray[500]};
-            ${theme.textVariants.body2Bold};
+            ${theme.typography.body2Bold};
           `}
         >
           {selectedOption}
@@ -236,7 +241,7 @@ export const SelectBox = ({
           `}
         >
           <img
-            src={`${process.env.PUBLIC_URL}/images/selectIcon.png`}
+            src={selectBoxArrow}
             alt="selectIcon"
             css={css`
               width: 1.5rem;
@@ -269,7 +274,7 @@ export const SelectBox = ({
                 color: ${option.name === selectedOption
                   ? theme.palette.primary[500]
                   : theme.palette.gray[500]};
-                ${theme.textVariants.body2Bold}
+                ${theme.typography.body2Bold}
               `}
             >
               {option.name}
