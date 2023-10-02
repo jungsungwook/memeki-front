@@ -52,7 +52,7 @@ const NavList = ({ children }: ContainerType) => {
   );
 };
 
-// accessToken 유무에 따라 헤더 메뉴 나누기(회원/비회원)
+// Todo: accessToken 유무에 따라 헤더 메뉴 나누기(회원/비회원)
 // react router dom의 쿼리파라미터 주소구별로 헤더 모양 바꾸기(서치바 유/무)
 export const Header = ({
   search,

@@ -18,3 +18,12 @@ export interface StyleContainerType {
 export interface SectionType extends ContainerType {
   gap?: string;
 }
+
+export interface SearchBarType {
+  large?: boolean;
+}
+
+export interface SortButtonType {
+  type: 'recent' | 'popular' | 'global' | 'year';
+  select?: boolean;
+}
