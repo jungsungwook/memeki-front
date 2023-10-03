@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import theme from '../../styles/theme';
 import { ContainerType } from '../../types/globalType';
 import Logo from '../../assets/images/logo.png';
-import { SearchBar } from './Component';
+import { SearchBar } from './component';
 
 const Nav = ({ children }: ContainerType) => {
   return (

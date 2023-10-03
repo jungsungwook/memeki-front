@@ -33,3 +33,13 @@ export interface SortButtonType {
 export interface SelectBoxType {
   type: 'popular' | 'global' | 'year';
 }
+
+export interface SortButtonListType {
+  main?: boolean;
+}
+
+export interface ButtonBoxType extends ContainerType {
+  type: 'default' | 'long' | 'verySmall' | 'square';
+  submit?: boolean;
+  onClick?: () => void;
+}

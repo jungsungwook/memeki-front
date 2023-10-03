@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-/* eslint-disable */
 import { css } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
 import { ReactComponent as SearchIcon } from '../../assets/images/search.svg';
@@ -8,9 +7,11 @@ import Logo from '../../assets/images/logo.png';
 import likeIcon from '../../assets/images/like.svg';
 import selectBoxArrow from '../../assets/images/selectBoxArrow.svg';
 import {
+  ButtonBoxType,
   ContainerType,
   SearchBarType,
   SelectBoxType,
+  SortButtonListType,
   SortButtonType,
 } from '../../types/globalType';
 import memeCertifyIcon from '../../assets/images/memeCertify.png';
@@ -19,7 +20,124 @@ import { ReactComponent as PopularIcon } from '../../assets/images/popular.svg';
 import { ReactComponent as GlobalIcon } from '../../assets/images/global.svg';
 import { ReactComponent as YearIcon } from '../../assets/images/year.svg';
 import selectOptions from '../../store/selectOptions';
-import { v4 } from 'uuid';
+
+export const SelectBox = ({
+  type, // onClick,
+}: SelectBoxType) => {
+  const styles = {
+    popular: css`
+      width: 10.3rem;
+    `,
+    global: css`
+      width: 10.3rem;
+    `,
+    year: css`
+      width: 13.5rem;
+    `,
+  };
+  const [rotationDegree, setRotationDegree] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(
+    selectOptions[type][0].name,
+  ); // selectBox의 선택된 옵션 View
+
+  useEffect(() => {
+    setSelectedOption(selectOptions[type][0].name);
+  }, [type]);
+
+  const handleOptionClick = (optionName: string) => {
+    setSelectedOption(optionName);
+    // onClick(optionName);
+    setIsOpen(false);
+  };
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+    setRotationDegree(isOpen ? 0 : 180);
+  };
+
+  return (
+    <div
+      css={css`
+        position: relative; /* 부모 요소의 위치 기준으로 */
+        display: flex;
+        flex-direction: column;
+        gap: 1.6rem;
+        z-index: 10;
+        ${styles[type]}
+      `}
+    >
+      <button
+        type="button"
+        onClick={toggleDropdown}
+        css={css`
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          gap: 1.6rem;
+        `}
+      >
+        <div
+          css={css`
+            color: ${theme.palette.gray[500]};
+            ${theme.typography.body2Bold};
+          `}
+        >
+          {selectedOption}
+        </div>
+        <div
+          css={css`
+            transition: 0.3s;
+            animation: none;
+            transform: rotate(${rotationDegree}deg);
+          `}
+        >
+          <img
+            src={selectBoxArrow}
+            alt="selectIcon"
+            css={css`
+              width: 1.5rem;
+              height: 1rem;
+            `}
+          />
+        </div>
+      </button>
+      {isOpen && (
+        <ul
+          css={css`
+            position: absolute; /* 드롭다운 박스를 절대 위치로 설정 */
+            top: 100%; /* 부모 요소 아래에 배치 */
+            width: inherit;
+            border-radius: 0.5rem;
+            background: ${theme.palette.gray.white};
+            box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.05);
+          `}
+        >
+          {selectOptions[type].map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => handleOptionClick(option.name)}
+              css={css`
+                display: flex;
+                width: inherit;
+                padding: 1.6rem;
+                justify-content: flex-start;
+                align-items: center;
+                color: ${option.name === selectedOption
+                  ? theme.palette.primary[500]
+                  : theme.palette.gray[500]};
+                ${theme.typography.body2Bold}
+              `}
+            >
+              {option.name}
+            </button>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
 
 export const SearchBar = ({ large }: SearchBarType) => {
   return (
@@ -136,6 +254,23 @@ export const MemeBoxList = ({ children }: ContainerType) => {
   );
 };
 
+// 가로 사이의 간격을 멀게 하는 컴포넌트
+export const SpaceBox = ({ children }: ContainerType) => {
+  return (
+    <div
+      css={css`
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      `}
+    >
+      {children}
+    </div>
+  );
+};
+
 const SortButton = ({ type, isSelect, onClick }: SortButtonType) => {
   const color = isSelect
     ? `${theme.palette.primary[500]}`
@@ -159,7 +294,8 @@ const SortButton = ({ type, isSelect, onClick }: SortButtonType) => {
   }
 
   return (
-    <div
+    <button
+      type="button"
       onClick={onClick}
       css={css`
         cursor: pointer;
@@ -171,12 +307,12 @@ const SortButton = ({ type, isSelect, onClick }: SortButtonType) => {
       `}
     >
       {imgIcon}
-    </div>
+    </button>
   );
 };
 
-// todo. 렌더링 느림현상있음. 콘솔 warning 발생
-export const SortButtonList = ({ main }: { main?: boolean }) => {
+// todo. 콘솔 warning 발생
+export const SortButtonList = ({ main }: SortButtonListType) => {
   const [firstCategory, setFirstCategory] = useState(true);
   const [secondCategory, setSecondCategory] = useState(!firstCategory);
   const [selectedOption, setSelectedOption] = useState<
@@ -231,135 +367,52 @@ export const SortButtonList = ({ main }: { main?: boolean }) => {
   );
 };
 
-export const SelectBox = ({
-  type, // onClick,
-}: SelectBoxType) => {
-  const styles = {
-    popular: css`
-      width: 10.3rem;
+export const ButtonBox = ({
+  type,
+  submit,
+  onClick,
+  children,
+}: ButtonBoxType) => {
+  const buttonStyles = {
+    default: css`
+      padding: 0.8rem 3.2rem;
     `,
-    global: css`
-      width: 10.3rem;
+    long: css`
+      width: 50rem;
+      padding: 1.6rem;
     `,
-    year: css`
-      width: 13.5rem;
+    verySmall: css`
+      padding: 0.4rem 0.8rem;
+    `,
+    square: css`
+      padding: 0.8rem 3.2rem;
+      gap: 0.8rem;
     `,
   };
-  const [rotationDegree, setRotationDegree] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(
-    selectOptions[type][0].name,
-  ); // selectBox의 선택된 옵션 View
+  const buttonStyle = css`
+    border-radius: ${type === 'square' ? 1.2 : 5}rem;
+    background-color: ${type === 'verySmall'
+      ? theme.palette.gray[200]
+      : theme.palette.primary[400]};
+    color: ${type === 'verySmall'
+      ? theme.palette.gray[300]
+      : theme.palette.gray[500]};
+    ${type === 'verySmall'
+      ? theme.typography.body3Bold
+      : theme.typography.body1Bold};
+    ${buttonStyles[type]};
 
-  useEffect(() => {
-    setSelectedOption(selectOptions[type][0].name);
-  }, [type]);
-
-  const handleOptionClick = (optionName: any) => {
-    setSelectedOption(optionName);
-    // onClick(optionName);
-    setIsOpen(false);
-  };
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-    setRotationDegree(isOpen ? 0 : 180);
-  };
-
+    &:active {
+      transform: scale(0.98);
+    }
+  `;
   return (
-    <div
-      css={css`
-        position: relative; /* 부모 요소의 위치 기준으로 */
-        display: flex;
-        flex-direction: column;
-        gap: 1.6rem;
-        z-index: 10;
-        ${styles[type]}
-      `}
-    >
-      <div
-        onClick={toggleDropdown}
-        css={css`
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
-          gap: 1.6rem;
-        `}
-      >
-        <div
-          css={css`
-            color: ${theme.palette.gray[500]};
-            ${theme.typography.body2Bold};
-          `}
-        >
-          {selectedOption}
-        </div>
-        <div
-          css={css`
-            transition: 0.3s;
-            animation: none;
-            transform: rotate(${rotationDegree}deg);
-          `}
-        >
-          <img
-            src={selectBoxArrow}
-            alt="selectIcon"
-            css={css`
-              width: 1.5rem;
-              height: 1rem;
-            `}
-          />
-        </div>
-      </div>
-      {isOpen && (
-        <ul
-          css={css`
-            position: absolute; /* 드롭다운 박스를 절대 위치로 설정 */
-            top: 100%; /* 부모 요소 아래에 배치 */
-            width: inherit;
-            border-radius: 0.5rem;
-            background: ${theme.palette.gray.white};
-            box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.05);
-          `}
-        >
-          {selectOptions[type].map((option) => (
-            <li
-              key={option.value}
-              onClick={() => handleOptionClick(option.name)}
-              css={css`
-                display: flex;
-                width: inherit;
-                padding: 1.6rem;
-                justify-content: flex-start;
-                align-items: center;
-                color: ${option.name === selectedOption
-                  ? theme.palette.primary[500]
-                  : theme.palette.gray[500]};
-                ${theme.typography.body2Bold}
-              `}
-            >
-              {option.name}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-};
-
-// 가로 사이의 간격을 멀게 하는 컴포넌트
-export const SpaceBox = ({ children }: ContainerType) => {
-  return (
-    <div
-      css={css`
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-      `}
+    <button
+      type={submit ? 'submit' : 'button'}
+      css={buttonStyle}
+      onClick={onClick}
     >
       {children}
-    </div>
+    </button>
   );
 };
