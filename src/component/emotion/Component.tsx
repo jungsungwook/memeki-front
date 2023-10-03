@@ -418,16 +418,14 @@ export const ButtonBox = ({
   );
 };
 
-export const Line = ({ type }: LineType) => {
+export const Line = ({ bold }: LineType) => {
   return (
     <hr
       css={css`
         width: 100%;
         height: 0.1rem;
         margin: 0.8rem;
-        background: ${type === 'publish'
-          ? theme.palette.gray[300]
-          : theme.palette.gray[200]};
+        background: ${bold ? theme.palette.gray[300] : theme.palette.gray[200]};
         border: 0;
       `}
     />

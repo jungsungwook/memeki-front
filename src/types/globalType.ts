@@ -47,3 +47,17 @@ export interface ButtonBoxType extends ContainerType {
 export interface NavItemProps extends ContainerType {
   to: string;
 }
+
+export interface LoginInputType {
+  type: 'user' | 'pw' | 'email';
+  placeholder: string;
+}
+
+export interface LineType {
+  bold?: boolean;
+}
+
+export interface TextButtonType {
+  type: 'id' | 'pw' | 'login' | 'signUp';
+  noLine?: boolean;
+}

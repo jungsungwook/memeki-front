@@ -11,6 +11,8 @@ import SignUp from './component/userPage/signUp/SignUp';
 import Login from './component/userPage/login/Login';
 import Publish from './component/publish';
 import MemeDoc from './component/main/memeDoc/MemeDoc';
+import FindId from './component/userPage/login/FindId';
+import FindPw from './component/userPage/login/FindPw';
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         <Route path="/detail/:pageId/:pageTextId" element={<PartEdit />} />
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/id" element={<FindId />} />
+        <Route path="/pw" element={<FindPw />} />
       </Routes>
     </div>
   );
