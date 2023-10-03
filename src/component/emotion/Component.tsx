@@ -9,6 +9,7 @@ import selectBoxArrow from '../../assets/images/selectBoxArrow.svg';
 import {
   ButtonBoxType,
   ContainerType,
+  LineType,
   SearchBarType,
   SelectBoxType,
   SortButtonListType,
@@ -414,5 +415,21 @@ export const ButtonBox = ({
     >
       {children}
     </button>
+  );
+};
+
+export const Line = ({ type }: LineType) => {
+  return (
+    <hr
+      css={css`
+        width: 100%;
+        height: 0.1rem;
+        margin: 0.8rem;
+        background: ${type === 'publish'
+          ? theme.palette.gray[300]
+          : theme.palette.gray[200]};
+        border: 0;
+      `}
+    />
   );
 };
