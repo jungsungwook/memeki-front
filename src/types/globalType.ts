@@ -51,6 +51,8 @@ export interface NavItemProps extends ContainerType {
 export interface LoginInputType {
   type: 'user' | 'pw' | 'email';
   placeholder: string;
+  check?: boolean;
+  onClick?: () => void;
 }
 
 export interface LineType {
@@ -60,4 +62,14 @@ export interface LineType {
 export interface TextButtonType {
   type: 'id' | 'pw' | 'login' | 'signUp';
   noLine?: boolean;
+}
+
+export interface SignUpLevelType {
+  first?: boolean;
+}
+
+export interface CheckBoxType extends ContainerType {
+  textColumn?: boolean;
+  onClick?: () => void;
+  check?: boolean;
 }

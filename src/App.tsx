@@ -13,6 +13,7 @@ import Publish from './component/publish';
 import MemeDoc from './component/main/memeDoc/MemeDoc';
 import FindId from './component/userPage/login/FindId';
 import FindPw from './component/userPage/login/FindPw';
+import Final from './component/userPage/signUp/Final';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/publish" element={<Publish />} />
         <Route path="/detail/:pageId/:pageTextId" element={<PartEdit />} />
         <Route path="/signUp" element={<SignUp />} />
+        <Route path="/signUp/final" element={<Final />} />
         <Route path="/login" element={<Login />} />
         <Route path="/id" element={<FindId />} />
         <Route path="/pw" element={<FindPw />} />

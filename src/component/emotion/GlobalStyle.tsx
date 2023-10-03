@@ -94,6 +94,17 @@ export const Body2Bold = ({ children, style }: StyleContainerType) => (
   </div>
 );
 
+export const Body3 = ({ children, style }: StyleContainerType) => (
+  <div
+    css={css`
+      ${theme.typography.body3}
+      ${style}
+    `}
+  >
+    {children}
+  </div>
+);
+
 export const Body3Bold = ({ children, style }: StyleContainerType) => (
   <div
     css={css`
