@@ -43,3 +43,7 @@ export interface ButtonBoxType extends ContainerType {
   submit?: boolean;
   onClick?: () => void;
 }
+
+export interface NavItemProps extends ContainerType {
+  to: string;
+}

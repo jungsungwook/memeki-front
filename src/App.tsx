@@ -2,8 +2,6 @@ import React from 'react';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import Main from './component/main/index';
-import Country from './component/main/country/Country';
-import Year from './component/main/year/Year';
 import Pending from './component/main/pending/Pending';
 import Search from './component/search/Search';
 import MyPage from './component/userPage/myPage/MyPage';
@@ -12,14 +10,14 @@ import PartEdit from './component/publish/partEdit/PartEdit';
 import SignUp from './component/userPage/signUp/SignUp';
 import Login from './component/userPage/login/Login';
 import Publish from './component/publish';
+import MemeDoc from './component/main/memeDoc/MemeDoc';
 
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/country" element={<Country />} />
-        <Route path="/year" element={<Year />} />
+        <Route path="/memeDoc" element={<MemeDoc />} />
         <Route path="/pending" element={<Pending />} />
         {/* 쿼리 파라미터 */}
         <Route path="/search" element={<Search />} />

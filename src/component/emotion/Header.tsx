@@ -1,8 +1,9 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react';
+import { Link } from 'react-router-dom';
 import theme from '../../styles/theme';
-import { ContainerType } from '../../types/globalType';
+import { ContainerType, NavItemProps } from '../../types/globalType';
 import Logo from '../../assets/images/logo.png';
 import { SearchBar } from './component';
 
@@ -52,26 +53,45 @@ const NavList = ({ children }: ContainerType) => {
   );
 };
 
+const NavItem = ({ children, to }: NavItemProps) => {
+  return (
+    <Link to={to}>
+      <p
+        css={css`
+          text-decoration-line: none;
+          transition: 0.5s all;
+          &:hover {
+            color: rgba(181, 166, 104, 0.7);
+          }
+        `}
+      >
+        {children}
+      </p>
+    </Link>
+  );
+};
+
 // Todo: accessToken 유무에 따라 헤더 메뉴 나누기(회원/비회원)
 // react router dom의 쿼리파라미터 주소구별로 헤더 모양 바꾸기(서치바 유/무)
 export const Header = ({
-  search,
-  isLogin,
+  search, // isLogin,
 }: {
   search?: boolean;
-  isLogin?: boolean;
+  // isLogin?: boolean;
 }) => {
-  const typeArray = isLogin
-    ? ['밈문서', '대기문서', '마이페이지', '로그아웃']
-    : ['밈문서', '대기문서', '로그인'];
+  // const typeArray = isLogin
+  //   ? ['밈문서', '대기문서', '마이페이지', '로그아웃']
+  //   : ['밈문서', '대기문서', '로그인'];
   return (
     <Nav>
-      <img src={Logo} alt="memeki" width={120} />
+      <Link to="/">
+        <img src={Logo} alt="memeki" width={120} />
+      </Link>
       {search && <SearchBar />}
       <NavList>
-        {typeArray.map((value) => (
-          <div key={value}>{value}</div>
-        ))}
+        <NavItem to="/memeDoc">밈문서</NavItem>
+        <NavItem to="/pending">대기문서</NavItem>
+        <NavItem to="/login">로그인</NavItem>
       </NavList>
     </Nav>
   );
