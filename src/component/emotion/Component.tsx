@@ -20,7 +20,7 @@ import { ReactComponent as RecentIcon } from '../../assets/images/recent.svg';
 import { ReactComponent as PopularIcon } from '../../assets/images/popular.svg';
 import { ReactComponent as GlobalIcon } from '../../assets/images/global.svg';
 import { ReactComponent as YearIcon } from '../../assets/images/year.svg';
-import selectOptions from '../../store/selectOptions';
+import selectOptions from '../../json/selectOptions';
 
 export const SelectBox = ({
   type, // onClick,
@@ -334,13 +334,13 @@ export const SortButtonList = ({ main }: SortButtonListType) => {
 
   const buttonList: SortButtonType[] = [
     {
-      key: main ? 'recent' : 'global',
+      id: main ? 'recent' : 'global',
       type: main ? 'recent' : 'global',
       isSelect: firstCategory,
       onClick: handleToggleButton1,
     },
     {
-      key: main ? 'popular' : 'year',
+      id: main ? 'popular' : 'year',
       type: main ? 'popular' : 'year',
       isSelect: secondCategory,
       onClick: handleToggleButton2,
@@ -356,7 +356,7 @@ export const SortButtonList = ({ main }: SortButtonListType) => {
       >
         {buttonList.map((button) => (
           <SortButton
-            key={button.key}
+            key={button.id}
             type={button.type}
             isSelect={button.isSelect}
             onClick={button.onClick}
