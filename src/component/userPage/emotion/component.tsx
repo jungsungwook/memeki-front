@@ -115,7 +115,7 @@ export const TextButton = ({ type, noLine }: TextButtonType) => {
     signUp: '회원가입',
   };
   return (
-    <Link to={`/${type}`}>
+    <Link to={type === 'login' ? '/login' : `/login/${type}`}>
       <div
         css={css`
           padding: 0 2.4rem;

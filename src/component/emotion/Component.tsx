@@ -366,24 +366,26 @@ export const ButtonBox = ({
 }: ButtonBoxType) => {
   const buttonStyles = {
     default: css`
-      padding: 0.8rem 3.2rem;
+      padding: 0.8rem 2.4rem;
     `,
     long: css`
-      width: 50rem;
+      width: 100%;
       padding: 1.6rem;
     `,
     verySmall: css`
       padding: 0.4rem 0.8rem;
     `,
     square: css`
-      padding: 0.8rem 3.2rem;
+      width: 11rem;
+      padding: 0.8rem 1.6rem;
       gap: 0.8rem;
     `,
   };
   const buttonStyle = css`
+    width: auto;
     align-items: center;
     justify-content: center;
-    border-radius: ${type === 'square' ? 1.2 : 5}rem;
+    border-radius: ${type === 'square' ? 0.8 : 5}rem;
     background-color: ${type === 'verySmall'
       ? theme.palette.gray[200]
       : theme.palette.primary[400]};

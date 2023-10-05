@@ -20,7 +20,7 @@ const Login = () => {
   const [secondCheck, setSecondCheck] = useState(false);
 
   const NextButton = () => {
-    if (allCheck) navigate('/signUp/final');
+    if (allCheck) navigate('/login/signUp/final');
     else if (!allCheck) alert('회원가입을 완료하려면 동의를 모두 체크해주세요');
   };
 
