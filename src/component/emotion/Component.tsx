@@ -20,7 +20,9 @@ import { ReactComponent as RecentIcon } from '../../assets/images/recent.svg';
 import { ReactComponent as PopularIcon } from '../../assets/images/popular.svg';
 import { ReactComponent as GlobalIcon } from '../../assets/images/global.svg';
 import { ReactComponent as YearIcon } from '../../assets/images/year.svg';
+import { ReactComponent as DocIcon } from '../../assets/images/pending.svg';
 import selectOptions from '../../json/selectOptions';
+import { SpaceContainer } from './GlobalStyle';
 
 export const SelectBox = ({
   type, // onClick,
@@ -255,24 +257,7 @@ export const MemeBoxList = ({ children }: ContainerType) => {
   );
 };
 
-// 가로 사이의 간격을 멀게 하는 컴포넌트
-export const SpaceBox = ({ children }: ContainerType) => {
-  return (
-    <div
-      css={css`
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-      `}
-    >
-      {children}
-    </div>
-  );
-};
-
-const SortButton = ({ type, isSelect, onClick }: SortButtonType) => {
+export const SortButton = ({ type, isSelect, onClick }: SortButtonType) => {
   const color = isSelect
     ? `${theme.palette.primary[500]}`
     : `${theme.palette.gray[500]}`;
@@ -290,16 +275,23 @@ const SortButton = ({ type, isSelect, onClick }: SortButtonType) => {
     case 'year':
       imgIcon = [<YearIcon fill={color} />, '년도별'];
       break;
+    case 'pendingDoc':
+      imgIcon = [<DocIcon fill={color} />, '대기 문서'];
+      break;
+    case 'defaultDoc':
+      imgIcon = [<DocIcon fill={color} />, '추천 문서'];
+      break;
     default: // do nothing;
       break;
   }
 
   return (
     <button
+      key={type}
       type="button"
       onClick={onClick}
       css={css`
-        cursor: pointer;
+        cursor: ${onClick ? 'pointer' : 'default'};
         ${theme.typography.header1};
         color: ${color};
         display: flex;
@@ -334,20 +326,18 @@ export const SortButtonList = ({ main }: SortButtonListType) => {
 
   const buttonList: SortButtonType[] = [
     {
-      id: main ? 'recent' : 'global',
       type: main ? 'recent' : 'global',
       isSelect: firstCategory,
       onClick: handleToggleButton1,
     },
     {
-      id: main ? 'popular' : 'year',
       type: main ? 'popular' : 'year',
       isSelect: secondCategory,
       onClick: handleToggleButton2,
     },
   ];
   return (
-    <SpaceBox>
+    <SpaceContainer>
       <div
         css={css`
           display: flex;
@@ -356,7 +346,7 @@ export const SortButtonList = ({ main }: SortButtonListType) => {
       >
         {buttonList.map((button) => (
           <SortButton
-            key={button.id}
+            key={button.type}
             type={button.type}
             isSelect={button.isSelect}
             onClick={button.onClick}
@@ -364,7 +354,7 @@ export const SortButtonList = ({ main }: SortButtonListType) => {
         ))}
       </div>
       {selectedOption !== 'recent' && <SelectBox type={selectedOption} />}
-    </SpaceBox>
+    </SpaceContainer>
   );
 };
 
@@ -391,6 +381,8 @@ export const ButtonBox = ({
     `,
   };
   const buttonStyle = css`
+    align-items: center;
+    justify-content: center;
     border-radius: ${type === 'square' ? 1.2 : 5}rem;
     background-color: ${type === 'verySmall'
       ? theme.palette.gray[200]

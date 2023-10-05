@@ -1,40 +1,51 @@
 import React from 'react';
-import { ReactComponent as Recent } from '../../assets/images/recent.svg';
+import { css } from '@emotion/react';
 import theme from '../../styles/theme';
-import Logo from '../../assets/images/logo.png';
-import YearIcon from '../../assets/images/year.svg';
 import {
   MemeBox,
   MemeBoxList,
   SearchBar,
   SortButtonList,
 } from '../emotion/component';
-import { Inner } from '../emotion/GlobalStyle';
+import { Header2, Inner, Section, Title } from '../emotion/GlobalStyle';
 import { Header } from '../emotion/Header';
 
 const index = () => {
   return (
     <Inner>
-      {/* <Header search /> */}
       <Header />
-      index
+      <Section gap="2.4">
+        <Title
+          style={css`
+            text-align: center;
+            color: ${theme.palette.primary[500]};
+          `}
+        >
+          Let’s memeki
+        </Title>
+        <Header2
+          style={css`
+            text-align: center;
+          `}
+        >
+          예전에 떴던 혹은 현재 뜨고 있는 <br />
+          게시물, 신조어가 궁금하신가요? <br />
+          밈에 대한 모든 것을 알려드립니다
+        </Header2>
+      </Section>
       <SearchBar large />
-      <SearchBar />
-      <MemeBoxList>
-        <MemeBox />
-        <MemeBox />
-        <MemeBox />
-        <MemeBox />
-        <MemeBox />
-        <MemeBox />
-        <MemeBox />
-      </MemeBoxList>
-      <SortButtonList main />
-      <SortButtonList />
-      <MemeBox />
-      <img src={YearIcon} alt="icon" />
-      <img src={Logo} alt="memeki" width={200} />
-      <Recent fill={`${theme.palette.primary[500]}`} height="200" />
+      <Section gap="3.2">
+        <SortButtonList main />
+        <MemeBoxList>
+          <MemeBox />
+          <MemeBox />
+          <MemeBox />
+          <MemeBox />
+          <MemeBox />
+          <MemeBox />
+          <MemeBox />
+        </MemeBoxList>
+      </Section>
     </Inner>
   );
 };

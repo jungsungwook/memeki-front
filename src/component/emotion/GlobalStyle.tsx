@@ -28,6 +28,17 @@ export const Inner = ({ children }: ContainerType) => (
   </section>
 );
 
+export const Title = ({ children, style }: StyleContainerType) => (
+  <div
+    css={css`
+      ${theme.typography.title}
+      ${style}
+    `}
+  >
+    {children}
+  </div>
+);
+
 export const Header1 = ({ children, style }: StyleContainerType) => (
   <div
     css={css`
@@ -129,20 +140,21 @@ export const Section = ({ children, gap }: SectionType) => (
   </div>
 );
 
-// Section.defaultProps = {
-//   gap: 0,
-// };
-// export const Body5 = ({ children, style, onClick }: StyleContainerType) => (
-//   <div
-//     css={css`
-//       ${theme.typography.body1}
-//       ${style}
-//     `}
-//     onClick={onClick}
-//     onKeyDown={onClick}
-//     role="button"
-//     tabIndex={0}
-//   >
-//     {children}
-//   </div>
-// );
+// 가로 사이의 간격을 멀게 하는 컴포넌트
+export const SpaceContainer = ({ children }: ContainerType) => {
+  return (
+    <div
+      css={css`
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      `}
+    >
+      {children}
+    </div>
+  );
+};
+Section.defaultProps = {
+  gap: 0,
+};

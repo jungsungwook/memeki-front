@@ -24,10 +24,9 @@ export interface SearchBarType {
 }
 
 export interface SortButtonType {
-  key: string;
-  type: 'recent' | 'popular' | 'global' | 'year';
-  isSelect: boolean;
-  onClick: () => void;
+  type: 'recent' | 'popular' | 'global' | 'year' | 'pendingDoc' | 'defaultDoc';
+  isSelect?: boolean;
+  onClick?: () => void;
 }
 
 export interface SelectBoxType {
