@@ -3,7 +3,7 @@ import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import Main from './component/main/index';
 import Pending from './component/main/pending/Pending';
-import Search from './component/search/Search';
+import Search from './component/search/index';
 import MyPage from './component/userPage/myPage/MyPage';
 import Detail from './component/detail/Detail';
 import PartEdit from './component/publish/partEdit/PartEdit';
@@ -14,6 +14,8 @@ import MemeDoc from './component/main/memeDoc/MemeDoc';
 import FindId from './component/userPage/login/FindId';
 import FindPw from './component/userPage/login/FindPw';
 import Final from './component/userPage/signUp/Final';
+import MoreYellowBox from './component/search/moreYellowBox/MoreYellowBox';
+import MoreGrayBox from './component/search/moreGrayBox/MoreGrayBox';
 
 function App() {
   return (
@@ -24,15 +26,17 @@ function App() {
         <Route path="/pending" element={<Pending />} />
         {/* 쿼리 파라미터 */}
         <Route path="/search" element={<Search />} />
+        <Route path="/search/more" element={<MoreYellowBox />} />
+        <Route path="/search/morePending" element={<MoreGrayBox />} />
         <Route path="/myPage" element={<MyPage />} />
         <Route path="/detail/:pageId" element={<Detail />} />
         <Route path="/publish" element={<Publish />} />
         <Route path="/detail/:pageId/:pageTextId" element={<PartEdit />} />
-        <Route path="/signUp" element={<SignUp />} />
-        <Route path="/signUp/final" element={<Final />} />
+        <Route path="/login/signUp" element={<SignUp />} />
+        <Route path="login/signUp/final" element={<Final />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/id" element={<FindId />} />
-        <Route path="/pw" element={<FindPw />} />
+        <Route path="/login/id" element={<FindId />} />
+        <Route path="/login/pw" element={<FindPw />} />
       </Routes>
     </div>
   );
