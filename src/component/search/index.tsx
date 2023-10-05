@@ -23,6 +23,7 @@ const index = () => {
           <img src={penIcon} alt="icon" />
           <Body1Bold>새 문서</Body1Bold>
         </ButtonBox>
+
         <Section gap="1.6">
           <SpaceContainer>
             <Header2>추천 문서</Header2>
@@ -32,7 +33,7 @@ const index = () => {
           <GoToWrite />
         </Section>
 
-        <Section>
+        <Section gap="1.6">
           <SpaceContainer>
             <Header2>대기 문서</Header2>
             <MoreButton to="/search/morePending" />
