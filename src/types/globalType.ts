@@ -1,5 +1,5 @@
 import { SerializedStyles } from '@emotion/react';
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 export interface ContainerType {
   children: ReactNode;
@@ -71,4 +71,20 @@ export interface CheckBoxType extends ContainerType {
   textColumn?: boolean;
   onClick?: () => void;
   check?: boolean;
+}
+
+export interface FindInfoType {
+  cnt?: number;
+  text?: string;
+}
+
+export interface MoreButtonType {
+  to: string;
+}
+
+export interface InputBoxType {
+  title?: boolean;
+  value: string;
+  name: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }

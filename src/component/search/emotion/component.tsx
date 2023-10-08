@@ -5,8 +5,9 @@ import { css } from '@emotion/react';
 import arrowIcon from '../../../assets/images/rightArrow.svg';
 import theme from '../../../styles/theme';
 import { ButtonBox } from '../../emotion/component';
+import { FindInfoType, MoreButtonType } from '../../../types/globalType';
 
-export const MoreButton = ({ to }: { to: string }) => {
+export const MoreButton = ({ to }: MoreButtonType) => {
   const navigate = useNavigate();
   const MovePage = () => {
     navigate(to);
@@ -27,7 +28,7 @@ export const MoreButton = ({ to }: { to: string }) => {
   );
 };
 
-export const FindInfo = ({ cnt, text }: { cnt?: number; text?: string }) => {
+export const FindInfo = ({ cnt, text }: FindInfoType) => {
   return (
     <div
       css={css`
@@ -66,6 +67,7 @@ export const FindInfo = ({ cnt, text }: { cnt?: number; text?: string }) => {
   );
 };
 
+// todo. 새문서만들기 페이지 이동 버튼함수 구현
 export const GoToWrite = () => {
   return (
     <div
