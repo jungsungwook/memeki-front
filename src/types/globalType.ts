@@ -41,6 +41,7 @@ export interface ButtonBoxType extends ContainerType {
   type: 'default' | 'long' | 'verySmall' | 'square';
   submit?: boolean;
   onClick?: () => void;
+  gray?: boolean;
 }
 
 export interface NavItemProps extends ContainerType {

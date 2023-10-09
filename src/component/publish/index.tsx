@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
-import { Inner } from '../emotion/GlobalStyle';
+import { Inner, Section } from '../emotion/GlobalStyle';
 import { Header } from '../emotion/Header';
-import { InputBox } from './emotion/component';
+import {
+  InputBox,
+  RightRowAlign,
+  ThumbnailButton,
+  WhiteInner,
+} from './emotion/component';
+import { EditorComponent } from './emotion/TextEditor';
+import { ButtonBox } from '../emotion/component';
 
 const Index = () => {
   const [title, setTitle] = useState('');
@@ -16,11 +23,32 @@ const Index = () => {
     }
   };
   return (
-    <Inner>
+    <WhiteInner>
       <Header search />
-      <InputBox title value={title} onChange={handleTitleChange} name="title" />
-      <InputBox value={subtitle} onChange={handleTitleChange} name="subtitle" />
-    </Inner>
+      <Section gap="2.4">
+        <ThumbnailButton />
+        <InputBox
+          title
+          value={title}
+          onChange={handleTitleChange}
+          name="title"
+        />
+      </Section>
+      <Section gap="2.4">
+        <InputBox
+          value={subtitle}
+          onChange={handleTitleChange}
+          name="subtitle"
+        />
+        <EditorComponent />
+      </Section>
+      <RightRowAlign>
+        <ButtonBox type="default" gray>
+          단락 추가
+        </ButtonBox>
+        <ButtonBox type="default">등록</ButtonBox>
+      </RightRowAlign>
+    </WhiteInner>
   );
 };
 

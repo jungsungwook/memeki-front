@@ -68,11 +68,15 @@ const Login = () => {
         <Line bold />
         <CheckBox check={firstCheck} onClick={HandleFirstCheckClick}>
           <Body2>[필수] 미미키 계정 약관</Body2>
-          <ButtonBox type="verySmall">전체보기</ButtonBox>
+          <ButtonBox type="verySmall" gray>
+            전체보기
+          </ButtonBox>
         </CheckBox>
         <CheckBox check={secondCheck} onClick={HandleSecondCheckClick}>
           <Body2>[필수] 개인정보 수집 및 이용 동의</Body2>
-          <ButtonBox type="verySmall">전체보기</ButtonBox>
+          <ButtonBox type="verySmall" gray>
+            전체보기
+          </ButtonBox>
         </CheckBox>
       </Section>
 

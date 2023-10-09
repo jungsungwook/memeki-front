@@ -80,7 +80,7 @@ export const LoginInput = ({
         `}
       />
       {check && (
-        <ButtonBox type="verySmall" onClick={onClick}>
+        <ButtonBox type="verySmall" onClick={onClick} gray>
           중복 확인
         </ButtonBox>
       )}

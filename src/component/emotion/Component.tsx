@@ -363,6 +363,7 @@ export const ButtonBox = ({
   submit,
   onClick,
   children,
+  gray,
 }: ButtonBoxType) => {
   const buttonStyles = {
     default: css`
@@ -386,12 +387,10 @@ export const ButtonBox = ({
     align-items: center;
     justify-content: center;
     border-radius: ${type === 'square' ? 0.8 : 5}rem;
-    background-color: ${type === 'verySmall'
+    background-color: ${gray
       ? theme.palette.gray[200]
       : theme.palette.primary[400]};
-    color: ${type === 'verySmall'
-      ? theme.palette.gray[300]
-      : theme.palette.gray[500]};
+    color: ${gray ? theme.palette.gray[300] : theme.palette.gray[500]};
     ${type === 'verySmall'
       ? theme.typography.body3Bold
       : theme.typography.body1Bold};
