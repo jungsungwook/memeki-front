@@ -7,23 +7,25 @@ import {
   TextButtonList,
 } from '../emotion/component';
 import { ButtonBox, Line } from '../../emotion/component';
+import { Header1 } from '../../emotion/GlobalStyle';
 
-const Login = () => {
+const FindPw = () => {
   return (
     <ModalPage>
+      <Header1>비밀번호 찾기</Header1>
       <LoginInputList>
         <LoginInput type="user" placeholder="아이디" />
         <Line />
-        <LoginInput type="pw" placeholder="비밀번호" />
+        <LoginInput type="email" placeholder="이메일" />
       </LoginInputList>
-      <ButtonBox type="long">로그인</ButtonBox>
+      <ButtonBox type="long">이메일 전송</ButtonBox>
       <TextButtonList>
-        <TextButton type="pw" />
         <TextButton type="id" />
+        <TextButton type="login" />
         <TextButton type="signUp" noLine />
       </TextButtonList>
     </ModalPage>
   );
 };
 
-export default Login;
+export default FindPw;

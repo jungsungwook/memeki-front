@@ -1,14 +1,16 @@
 import React from 'react';
 import { Inner, Section } from '../../emotion/GlobalStyle';
-import { MemeBox, MemeBoxList, SortButton } from '../../emotion/component';
 import { Header } from '../../emotion/Header';
+import { MemeBox, MemeBoxList, SortButton } from '../../emotion/component';
+import { FindInfo } from '../emotion/component';
 
-const Pending = () => {
+const MoreGrayBox = () => {
   return (
     <Inner>
       <Header search />
-      <Section gap="3.2">
+      <Section gap="1.6">
         <SortButton type="pendingDoc" />
+        <FindInfo text="개구리" />
         <MemeBoxList>
           <MemeBox />
           <MemeBox />
@@ -24,4 +26,4 @@ const Pending = () => {
   );
 };
 
-export default Pending;
+export default MoreGrayBox;
