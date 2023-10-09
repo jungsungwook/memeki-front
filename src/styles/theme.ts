@@ -30,6 +30,10 @@ export const theme: DefaultTheme = {
       fontWeight: 'Bold',
       fontSize: '1.6rem',
     },
+    body3: {
+      fontWeight: '500',
+      fontSize: '1rem',
+    },
     body3Bold: {
       fontWeight: 'Bold',
       fontSize: '1rem',
@@ -53,7 +57,7 @@ export const theme: DefaultTheme = {
       white: '#ffffff',
     },
     semantic: {
-      placeholder: { 500: '#cbcbcb' },
+      background: '#faf9f8',
       success: { 500: '#59BA2C' },
       info: { 500: '#47C1FF' },
       warning: { 500: '#FFB200' },
