@@ -1,21 +1,20 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-export const userAuthApi: any = createApi({
+export const userAuthController: any = createApi({
   reducerPath: 'userAuthApi',
-  baseQuery: fetchBaseQuery({ baseUrl: '/auth/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://api.memeki.kr/auth/' }),
 
   endpoints: (builder) => ({
-    idCheck: builder.query({
-      query: (id) => {
-        return {
-          url: 'id-check',
-          params: { id },
-        };
-      },
+    SignUp: builder.mutation({
+      query: (formData) => ({
+        url: 'signup',
+        method: 'post',
+        body: formData,
+      }),
     }),
   }),
 });
 
-export const { useIdCheckQuery } = userAuthApi;
+export const { useSignUpMutation } = userAuthController;
 
-export default userAuthApi;
+export default userAuthController;
