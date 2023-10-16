@@ -159,6 +159,9 @@ const GlobalStyle = () => {
         input::placeholder {
           color: ${theme.palette.gray[400]};
         }
+        form {
+          width: 100%;
+        }
       `}
     />
   );

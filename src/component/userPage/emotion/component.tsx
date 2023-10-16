@@ -50,15 +50,31 @@ export const ModalPage = ({ children }: ContainerType) => {
   );
 };
 
+export const ErrorMessage = ({ children }: ContainerType) => {
+  return (
+    <small
+      role="alert"
+      css={css`
+        color: ${theme.palette.semantic.danger[500]};
+        margin-right: auto;
+      `}
+    >
+      {children}
+    </small>
+  );
+};
+
 export const LoginInput = ({
   type,
   placeholder,
   check,
   onClick,
+  register,
+  errMsg,
 }: LoginInputType) => {
   const src = {
     user: userIcon,
-    pw: pwIcon,
+    password: pwIcon,
     email: emailIcon,
   };
   return (
@@ -73,12 +89,24 @@ export const LoginInput = ({
       `}
     >
       <img src={src[type]} alt="icon" />
-      <input
-        placeholder={placeholder}
+      <div
         css={css`
           width: 100%;
+          display: flex;
+          flex-direction: column;
         `}
-      />
+      >
+        <input
+          placeholder={placeholder}
+          type={type !== 'user' ? type : 'text'}
+          css={css`
+            width: 100%;
+          `}
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...register}
+        />
+        {errMsg && <ErrorMessage>{errMsg}</ErrorMessage>}
+      </div>
       {check && (
         <ButtonBox type="verySmall" onClick={onClick} gray>
           중복 확인

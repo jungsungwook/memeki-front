@@ -2,11 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import { ThemeProvider } from '@emotion/react';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import GlobalStyle from './styles/GlobalStyle';
 import theme from './styles/theme';
+import store from './store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -14,10 +16,12 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <App />
-      </ThemeProvider>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <App />
+        </ThemeProvider>
+      </Provider>
     </BrowserRouter>
   </React.StrictMode>,
 );
