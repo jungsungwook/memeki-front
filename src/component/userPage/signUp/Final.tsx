@@ -42,7 +42,7 @@ const Final = () => {
     }
   }, [customId, name]);
 
-  const [singUpData] = useSignUpMutation();
+  const [singUpData, isError] = useSignUpMutation();
 
   const onCheckIdClick = async () => {
     await trigger('customId');
@@ -94,10 +94,15 @@ const Final = () => {
 
   const onsubmitHandler = async (submitData: any) => {
     try {
-      if (!(isId && isName)) {
-        alert('중복확인 버튼을 눌러주세요');
+      if (!isId) {
+        alert('ID 중복확인 버튼을 눌러주세요');
         return;
       }
+      if (!isName) {
+        alert('닉네임 중복확인 버튼을 눌러주세요');
+        return;
+      }
+
       const formData = {
         customId: submitData.customId,
         name: submitData.name,
@@ -106,8 +111,8 @@ const Final = () => {
       };
 
       const response = await singUpData(formData);
-      if (response.data.statusCode === '200') navigate('/');
-      else console.log(response.contents);
+      if (isError) console.log(response);
+      else if (response.data.statusCode === '200') navigate('/');
     } catch (error) {
       console.log(error);
     }
