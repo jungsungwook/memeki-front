@@ -62,7 +62,7 @@ declare module '@emotion/react' {
         success: { 500: '#59BA2C' };
         info: { 500: '#47C1FF' };
         warning: { 500: '#FFB200' };
-        danger: { 500: '#FF3A3A' };
+        danger: { 500: '#e15353' };
       };
     };
   }

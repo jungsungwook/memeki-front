@@ -14,7 +14,7 @@ const Login = () => {
       <LoginInputList>
         <LoginInput type="user" placeholder="아이디" />
         <Line />
-        <LoginInput type="pw" placeholder="비밀번호" />
+        <LoginInput type="password" placeholder="비밀번호" />
       </LoginInputList>
       <ButtonBox type="long">로그인</ButtonBox>
       <TextButtonList>

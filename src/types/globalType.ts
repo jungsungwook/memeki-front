@@ -1,5 +1,6 @@
 import { SerializedStyles } from '@emotion/react';
 import React, { ReactNode } from 'react';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 export interface ContainerType {
   children: ReactNode;
@@ -49,10 +50,12 @@ export interface NavItemProps extends ContainerType {
 }
 
 export interface LoginInputType {
-  type: 'user' | 'pw' | 'email';
+  type: 'user' | 'password' | 'email';
   placeholder: string;
   check?: boolean;
   onClick?: () => void;
+  register?: UseFormRegisterReturn;
+  errMsg?: any;
 }
 
 export interface LineType {
