@@ -12,7 +12,6 @@ import { ButtonBox, Line } from '../../emotion/component';
 import { Header1, Section } from '../../emotion/GlobalStyle';
 import { useSignUpMutation } from '../../../store/controller/userAuthController';
 
-// Todo. 1) error.message alter에 띄우기
 // Todo. 2) 400 err 브라우저에 로그 안 남기기(공통 모듈로 만들어서 넣기)
 // 2) https://chat.openai.com/share/9f1a0bba-af5c-4c1a-8387-9855f3e9a3be
 // 2) https://axios-http.com/kr/docs/handling_errors
@@ -23,26 +22,16 @@ const Final = () => {
     handleSubmit,
     getValues,
     trigger,
-    watch,
     formState: { errors },
   } = useForm({
     mode: 'onSubmit',
   });
 
-  const [isId, setIsId] = useState(false);
-  const [isName, setIsName] = useState(false);
-  const customId = watch('customId');
-  const name = watch('name');
+  const [isIdChecked, setIsIdChecked] = useState('');
+  const [isNameChecked, setIsNameChecked] = useState('');
+  const [isEmailChecked, setIsEmailChecked] = useState('');
 
-  useEffect(() => {
-    if (customId) {
-      setIsId(false);
-    } else if (name) {
-      setIsName(false);
-    }
-  }, [customId, name]);
-
-  const [singUpData, isError] = useSignUpMutation();
+  const [singUpData] = useSignUpMutation();
 
   const onCheckIdClick = async () => {
     await trigger('customId');
@@ -54,13 +43,13 @@ const Final = () => {
         `https://api.memeki.kr/auth/id-check?id=${getValues('customId')}`,
       );
       if (response.data.statusCode === '200') {
-        alert('사용 할 수 있는 아이디입니다.');
-        setIsId(true);
+        alert(response.data.contents.message);
+        setIsIdChecked(response.data.contents.id);
       }
     } catch (error: any) {
       if (error.response.data.statusCode === 401) {
-        alert('중복된 아이디가 있습니다.');
-        setIsId(false);
+        alert(error.response.data.message);
+        setIsNameChecked('');
       } else {
         console.error('onCheckIdClick error:', error);
       }
@@ -79,13 +68,38 @@ const Final = () => {
       );
 
       if (response.data.statusCode === '200') {
-        alert('사용 할 수 있는 닉네임입니다.');
-        setIsName(true);
+        alert(response.data.contents.message);
+        setIsNameChecked(response.data.contents.name);
       }
     } catch (error: any) {
       if (error.response.data.statusCode === 401) {
-        alert('중복된 아이디가 있습니다.');
-        setIsName(false);
+        alert(error.response.data.message);
+        setIsNameChecked('');
+      } else {
+        console.error('onCheckNameClick error:', error);
+      }
+    }
+  };
+
+  const onCheckEmailClick = async () => {
+    try {
+      await trigger('email');
+      if (errors.nameData || !getValues('email')) {
+        return;
+      }
+
+      const response = await axios.get(
+        `https://api.memeki.kr/auth/email-check?email=${getValues('email')}`,
+      );
+
+      if (response.data.statusCode === '200') {
+        alert(response.data.contents.message);
+        setIsEmailChecked(response.data.contents.email);
+      }
+    } catch (error: any) {
+      if (error.response.data.statusCode === 401) {
+        alert(error.response.data.message);
+        setIsEmailChecked('');
       } else {
         console.error('onCheckNameClick error:', error);
       }
@@ -94,12 +108,16 @@ const Final = () => {
 
   const onsubmitHandler = async (submitData: any) => {
     try {
-      if (!isId) {
+      if (isIdChecked !== getValues('customId')) {
         alert('ID 중복확인 버튼을 눌러주세요');
         return;
       }
-      if (!isName) {
+      if (isNameChecked !== getValues('name')) {
         alert('닉네임 중복확인 버튼을 눌러주세요');
+        return;
+      }
+      if (isEmailChecked !== getValues('email')) {
+        alert('이메일 중복확인 버튼을 눌러주세요');
         return;
       }
 
@@ -111,8 +129,7 @@ const Final = () => {
       };
 
       const response = await singUpData(formData);
-      if (isError) console.log(response);
-      else if (response.data.statusCode === '200') navigate('/');
+      if (response.data.statusCode === '200') navigate('/');
     } catch (error) {
       console.log(error);
     }
@@ -204,8 +221,9 @@ const Final = () => {
                   message: '닉네임은 10자 이하여야 합니다.',
                 },
                 pattern: {
-                  value: /^[A-Za-z가-힣]*$/,
-                  message: '닉네임은 영문 대소문자 및 한글 문자만 허용합니다.',
+                  value: /^[A-Za-z가-힣0-9]*$/,
+                  message:
+                    '닉네임은 영문 대소문자 및 한글 문자와 숫자만 허용합니다.',
                 },
               })}
             />
@@ -214,6 +232,8 @@ const Final = () => {
             <LoginInput
               type="email"
               placeholder="이메일"
+              check
+              onClick={onCheckEmailClick}
               errMsg={errors.email ? errors.email.message : undefined}
               register={register('email', {
                 required: '이메일 주소를 입력하세요.',
