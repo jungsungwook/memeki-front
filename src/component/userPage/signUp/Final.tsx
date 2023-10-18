@@ -129,7 +129,7 @@ const Final = () => {
       };
 
       const response = await singUpData(formData);
-      if (response.data.statusCode === '200') navigate('/');
+      if (response.data.statusCode === '200') navigate('/login/signUp/success');
     } catch (error) {
       console.log(error);
     }

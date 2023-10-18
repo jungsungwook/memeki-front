@@ -92,3 +92,9 @@ export interface InputBoxType {
   name: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
+
+export interface InfoContainerType extends ContainerType {
+  yellowText: string;
+  btnText: string;
+  onClick?: () => void;
+}

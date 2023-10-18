@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Inner, Section } from '../emotion/GlobalStyle';
+import { Section } from '../emotion/GlobalStyle';
 import { Header } from '../emotion/Header';
 import {
   InputBox,
