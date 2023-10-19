@@ -19,9 +19,28 @@ export const userAuthController: any = createApi({
         body: formData,
       }),
     }),
+    FindId: builder.mutation({
+      query: (data) => ({
+        url: 'find-id',
+        method: 'post',
+        body: data,
+      }),
+    }),
+    FindPassword: builder.mutation({
+      query: (formData) => ({
+        url: 'find-password',
+        method: 'post',
+        body: formData,
+      }),
+    }),
   }),
 });
 
-export const { useSignUpMutation, useSignInMutation } = userAuthController;
+export const {
+  useSignUpMutation,
+  useSignInMutation,
+  useFindIdMutation,
+  useFindPasswordMutation,
+} = userAuthController;
 
 export default userAuthController;
