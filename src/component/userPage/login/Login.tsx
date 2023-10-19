@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import {
   LoginInput,
   LoginInputList,
@@ -11,6 +12,7 @@ import {
 import { ButtonBox, Line } from '../../emotion/component';
 import { Section } from '../../emotion/GlobalStyle';
 import { useSignInMutation } from '../../../store/controller/userAuthController';
+import { setUser } from '../../../store/slice/userSlice';
 
 interface FormValue {
   customId: string;
@@ -19,6 +21,7 @@ interface FormValue {
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -31,8 +34,13 @@ const Login = () => {
   const onsubmitHandler: SubmitHandler<FormValue> = async (formData) => {
     try {
       const response = await loginData(formData);
-      // console.log('response: ', response);
-      if (response.data.statusCode === '200') navigate('/');
+      console.log('response: ', response);
+      if (response.data.statusCode === '200') {
+        const accessToken = response.data.contents;
+        // console.log('accessToken: ', accessToken);
+        dispatch(setUser({ accessToken }));
+        navigate('/');
+      }
     } catch (error) {
       alert(
         `아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.\n입력하신 내용을 다시 확인해주세요.`,
