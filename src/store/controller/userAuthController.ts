@@ -12,9 +12,16 @@ export const userAuthController: any = createApi({
         body: formData,
       }),
     }),
+    SignIn: builder.mutation({
+      query: (formData) => ({
+        url: 'signin',
+        method: 'post',
+        body: formData,
+      }),
+    }),
   }),
 });
 
-export const { useSignUpMutation } = userAuthController;
+export const { useSignUpMutation, useSignInMutation } = userAuthController;
 
 export default userAuthController;

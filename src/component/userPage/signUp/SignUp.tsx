@@ -13,7 +13,7 @@ import {
 import theme from '../../../styles/theme';
 
 // todo. 전체보기 버튼 구현
-const Login = () => {
+const SignUp = () => {
   const navigate = useNavigate();
   const [allCheck, setAllCheck] = useState(false);
   const [firstCheck, setFirstCheck] = useState(false);
@@ -87,4 +87,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
