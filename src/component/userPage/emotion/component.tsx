@@ -5,6 +5,7 @@ import theme from '../../../styles/theme';
 import {
   CheckBoxType,
   ContainerType,
+  InfoContainerType,
   LoginInputType,
   SignUpLevelType,
   TextButtonType,
@@ -15,7 +16,7 @@ import pwIcon from '../../../assets/images/password.svg';
 import emailIcon from '../../../assets/images/email.svg';
 import checkIcon from '../../../assets/images/checkbox.svg';
 import unCheckIcon from '../../../assets/images/unCheckbox.svg';
-import { Body2, Body3 } from '../../emotion/GlobalStyle';
+import { Body2, Body3, Section } from '../../emotion/GlobalStyle';
 import { ButtonBox } from '../../emotion/component';
 
 export const ModalPage = ({ children }: ContainerType) => {
@@ -248,6 +249,68 @@ export const CheckBox = ({
         `}
       >
         {children}
+      </div>
+    </div>
+  );
+};
+
+export const InfoContainer = ({
+  yellowText,
+  children,
+  btnText,
+  onClick,
+}: InfoContainerType) => {
+  return (
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        gap: 4rem;
+        align-items: center;
+        padding: 8rem 0;
+      `}
+    >
+      <Link to="/">
+        <img src={Logo} alt="memeki" width={400} />
+      </Link>
+      <div
+        css={css`
+          width: 90rem;
+          border-radius: 50px;
+          border: 1px solid ${theme.palette.primary[400]};
+          background: ${theme.palette.gray.white};
+          padding: 4.8rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4rem;
+          text-align: center;
+        `}
+      >
+        <div
+          css={css`
+            color: ${theme.palette.primary[400]};
+            ${theme.typography.header1}
+          `}
+        >
+          {yellowText.split('\n').map((text) => (
+            <>
+              {text}
+              <br />
+            </>
+          ))}
+        </div>
+        <div
+          css={css`
+            color: ${theme.palette.gray[500]};
+            ${theme.typography.body1}
+          `}
+        >
+          {children}
+        </div>
+        <ButtonBox type="long" onClick={onClick}>
+          {btnText}
+        </ButtonBox>
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { removeCookie } from '../cookie';
 import { RootState } from '..';
 
 type InitialState = {
@@ -20,7 +19,6 @@ export const userSlice = createSlice({
       return { ...state, accessToken };
     },
     logout: () => {
-      removeCookie('refreshToken');
       return { user: '', accessToken: null };
     },
   },

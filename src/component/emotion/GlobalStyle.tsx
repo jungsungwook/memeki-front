@@ -12,16 +12,18 @@ import {
  * 1200px의 Inner 컴포넌트, 가운데 정렬 처리 됨.
  * @param children 컴포넌트 안에 넣을 자식 요소
  */
-export const Inner = ({ children }: ContainerType) => (
+export const Inner = ({ children, style }: StyleContainerType) => (
   <section
     css={css`
       position: relative;
       width: 120rem;
+      padding: 16rem 0;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
       align-items: start;
       gap: 9.6rem;
+      ${style}
     `}
   >
     {children}

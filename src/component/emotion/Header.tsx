@@ -2,10 +2,13 @@
 
 import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import theme from '../../styles/theme';
 import { ContainerType, NavItemProps } from '../../types/globalType';
 import Logo from '../../assets/images/logo.png';
 import { SearchBar } from './component';
+import { logout, selectUser } from '../../store/slice/userSlice';
+import { useSignOutQuery } from '../../store/controller/userAuthController';
 
 const Nav = ({ children }: ContainerType) => {
   return (
@@ -53,10 +56,12 @@ const NavList = ({ children }: ContainerType) => {
   );
 };
 
-const NavItem = ({ children, to }: NavItemProps) => {
+const NavItem = ({ children, to, onClick }: NavItemProps) => {
   return (
     <Link to={to}>
-      <p
+      <button
+        type="button"
+        onClick={onClick}
         css={css`
           text-decoration-line: none;
           transition: 0.5s all;
@@ -66,22 +71,24 @@ const NavItem = ({ children, to }: NavItemProps) => {
         `}
       >
         {children}
-      </p>
+      </button>
     </Link>
   );
 };
 
-// Todo: accessToken 유무에 따라 헤더 메뉴 나누기(회원/비회원)
-// react router dom의 쿼리파라미터 주소구별로 헤더 모양 바꾸기(서치바 유/무)
-export const Header = ({
-  search, // isLogin,
-}: {
-  search?: boolean;
-  // isLogin?: boolean;
-}) => {
-  // const typeArray = isLogin
-  //   ? ['밈문서', '대기문서', '마이페이지', '로그아웃']
-  //   : ['밈문서', '대기문서', '로그인'];
+// Todo: react router dom의 쿼리파라미터 주소구별로 헤더 모양 바꾸기(서치바 유/무)
+// Todo: logout api가 로그인이 되어있지 않을 때도 불러와져 500에러가 남(axios로 바꾸거나 api 안 쓰기)
+export const Header = ({ search }: { search?: boolean }) => {
+  const { accessToken } = useSelector(selectUser);
+  const dispatch = useDispatch();
+  const { data } = useSignOutQuery({ accessToken });
+  // console.log('accessToken: ', accessToken);
+
+  const handleClick = () => {
+    dispatch(logout());
+    alert(data.contents);
+  };
+
   return (
     <Nav>
       <Link to="/">
@@ -91,7 +98,16 @@ export const Header = ({
       <NavList>
         <NavItem to="/memeDoc">밈문서</NavItem>
         <NavItem to="/pending">대기문서</NavItem>
-        <NavItem to="/login">로그인</NavItem>
+        {!accessToken ? (
+          <NavItem to="/login">로그인</NavItem>
+        ) : (
+          <>
+            <NavItem to="/myPage">마이페이지</NavItem>
+            <NavItem to="/" onClick={handleClick}>
+              로그아웃
+            </NavItem>
+          </>
+        )}
       </NavList>
     </Nav>
   );

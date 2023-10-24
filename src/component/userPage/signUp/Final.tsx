@@ -129,7 +129,7 @@ const Final = () => {
       };
 
       const response = await singUpData(formData);
-      if (response.data.statusCode === '200') navigate('/');
+      if (response.data.statusCode === '200') navigate('/login/signUp/success');
     } catch (error) {
       console.log(error);
     }
@@ -245,15 +245,9 @@ const Final = () => {
             />
           </LoginInputList>
 
-          {/* {isLoading ? (
-            <ButtonBox submit type="long">
-              잠시만 기다려주세요!
-            </ButtonBox>
-          ) : ( */}
           <ButtonBox submit type="long">
             회원가입
           </ButtonBox>
-          {/* )} */}
         </Section>
       </form>
     </ModalPage>

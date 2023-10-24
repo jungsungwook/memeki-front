@@ -12,9 +12,43 @@ export const userAuthController: any = createApi({
         body: formData,
       }),
     }),
+    SignIn: builder.mutation({
+      query: (formData) => ({
+        url: 'signin',
+        method: 'post',
+        body: formData,
+      }),
+    }),
+    FindId: builder.mutation({
+      query: (data) => ({
+        url: 'find-id',
+        method: 'post',
+        body: data,
+      }),
+    }),
+    FindPassword: builder.mutation({
+      query: (formData) => ({
+        url: 'find-password',
+        method: 'post',
+        body: formData,
+      }),
+    }),
+    SignOut: builder.query({
+      query: ({ accessToken }) => ({
+        url: 'signout',
+        method: 'get',
+        headers: { Authorization: accessToken },
+      }),
+    }),
   }),
 });
 
-export const { useSignUpMutation } = userAuthController;
+export const {
+  useSignUpMutation,
+  useSignInMutation,
+  useFindIdMutation,
+  useFindPasswordMutation,
+  useSignOutQuery,
+} = userAuthController;
 
 export default userAuthController;
