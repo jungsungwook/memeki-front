@@ -8,7 +8,7 @@ import {
   InputBoxType,
   StyleContainerType,
 } from '../../../types/globalType';
-import { ButtonBox } from '../../emotion/component';
+import { ButtonBox, SelectBox } from '../../emotion/component';
 import { Body1 } from '../../emotion/GlobalStyle';
 
 export const WhiteInner = ({ children }: ContainerType) => {
@@ -24,6 +24,8 @@ export const WhiteInner = ({ children }: ContainerType) => {
         align-items: start;
         gap: 8rem;
         padding: 4rem 3.2rem;
+        margin-top: 16rem;
+        border-radius: 1.6rem;
       `}
     >
       {children}
@@ -78,21 +80,44 @@ export const RightRowAlign = ({ children, style }: StyleContainerType) => {
   );
 };
 
-export const ThumbnailButton = () => {
+export const AttrButton = () => {
   return (
-    <RightRowAlign
-      style={css`
-        border: 2px solid ${theme.palette.primary[500]};
-        border-radius: 1rem;
-        width: fit-content;
-        padding: 0.8rem 1.6rem;
+    <div
+      css={css`
+        display: flex;
+        flex-direction: row;
+        align-items: center;
       `}
     >
-      <Body1>대표 이미지 : </Body1>
-      <ButtonBox type="square">등록</ButtonBox>
-      <ButtonBox type="square" gray>
-        미리보기
-      </ButtonBox>
-    </RightRowAlign>
+      <div
+        css={css`
+          display: flex;
+          flex-direction: row;
+          border: 2px solid ${theme.palette.primary[500]};
+          border-radius: 1rem;
+          width: fit-content;
+          align-items: center;
+          padding: 1.6rem 1.6rem 1.6rem 5rem;
+          gap: 3.2rem;
+        `}
+      >
+        <SelectBox type="global" publish="국가별 분류 선택" />
+        <SelectBox type="year" publish="년도별 분류 선택" />
+      </div>
+      <RightRowAlign
+        style={css`
+          border: 2px solid ${theme.palette.primary[500]};
+          border-radius: 1rem;
+          width: fit-content;
+          padding: 0.8rem 1.6rem;
+        `}
+      >
+        <Body1>대표 이미지 : </Body1>
+        <ButtonBox type="square">등록</ButtonBox>
+        <ButtonBox type="square" gray>
+          미리보기
+        </ButtonBox>
+      </RightRowAlign>
+    </div>
   );
 };

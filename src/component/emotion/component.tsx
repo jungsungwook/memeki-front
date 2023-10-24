@@ -26,6 +26,7 @@ import { SpaceContainer } from './GlobalStyle';
 
 export const SelectBox = ({
   type, // onClick,
+  publish,
 }: SelectBoxType) => {
   const styles = {
     popular: css`
@@ -86,7 +87,7 @@ export const SelectBox = ({
             ${theme.typography.body2Bold};
           `}
         >
-          {selectedOption}
+          {publish || selectedOption}
         </div>
         <div
           css={css`
@@ -109,7 +110,7 @@ export const SelectBox = ({
         <ul
           css={css`
             position: absolute; /* 드롭다운 박스를 절대 위치로 설정 */
-            top: 100%; /* 부모 요소 아래에 배치 */
+            top: 150%; /* 부모 요소 아래에 배치 */
             width: inherit;
             border-radius: 0.5rem;
             background: ${theme.palette.gray.white};

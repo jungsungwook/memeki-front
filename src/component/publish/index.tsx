@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Section } from '../emotion/GlobalStyle';
 import { Header } from '../emotion/Header';
 import {
+  AttrButton,
   InputBox,
   RightRowAlign,
-  ThumbnailButton,
   WhiteInner,
 } from './emotion/component';
 import { EditorComponent } from './emotion/TextEditor';
@@ -26,7 +26,7 @@ const Index = () => {
     <WhiteInner>
       <Header search />
       <Section gap="2.4">
-        <ThumbnailButton />
+        <AttrButton />
         <InputBox
           title
           value={title}

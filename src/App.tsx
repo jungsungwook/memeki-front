@@ -17,8 +17,11 @@ import Final from './component/userPage/signUp/Final';
 import MoreYellowBox from './component/search/moreYellowBox/MoreYellowBox';
 import MoreGrayBox from './component/search/moreGrayBox/MoreGrayBox';
 import Success from './component/userPage/signUp/Success';
+import { RefreshTokenUtil } from './util/util';
 
 function App() {
+  RefreshTokenUtil();
+
   return (
     <div className="App">
       <Routes>

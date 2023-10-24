@@ -245,15 +245,9 @@ const Final = () => {
             />
           </LoginInputList>
 
-          {/* {isLoading ? (
-            <ButtonBox submit type="long">
-              잠시만 기다려주세요!
-            </ButtonBox>
-          ) : ( */}
           <ButtonBox submit type="long">
             회원가입
           </ButtonBox>
-          {/* )} */}
         </Section>
       </form>
     </ModalPage>
