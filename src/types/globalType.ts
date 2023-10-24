@@ -32,6 +32,7 @@ export interface SortButtonType {
 
 export interface SelectBoxType {
   type: 'popular' | 'global' | 'year';
+  publish?: string;
 }
 
 export interface SortButtonListType {
