@@ -47,6 +47,7 @@ export interface ButtonBoxType extends ContainerType {
 
 export interface NavItemProps extends ContainerType {
   to: string;
+  onClick?: () => void;
 }
 
 export interface LoginInputType {
@@ -97,4 +98,15 @@ export interface InfoContainerType extends ContainerType {
   yellowText: string;
   btnText: string;
   onClick?: () => void;
+}
+
+export interface FetcherProps {
+  query: {
+    isLoading: boolean;
+    isError: boolean;
+    error?: any;
+    data?: any;
+  };
+  children: (data: any) => React.ReactNode;
+  loading: React.ReactNode;
 }

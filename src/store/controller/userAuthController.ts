@@ -33,6 +33,13 @@ export const userAuthController: any = createApi({
         body: formData,
       }),
     }),
+    SignOut: builder.query({
+      query: ({ accessToken }) => ({
+        url: 'signout',
+        method: 'get',
+        headers: { Authorization: accessToken },
+      }),
+    }),
   }),
 });
 
@@ -41,6 +48,7 @@ export const {
   useSignInMutation,
   useFindIdMutation,
   useFindPasswordMutation,
+  useSignOutQuery,
 } = userAuthController;
 
 export default userAuthController;

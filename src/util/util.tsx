@@ -3,6 +3,8 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Cookies } from 'react-cookie';
 import { setUser } from '../store/slice/userSlice';
+import { Body1 } from '../component/emotion/GlobalStyle';
+import { FetcherProps } from '../types/globalType';
 
 // 리프레시 실행시간 설정
 export const RefreshTokenUtil = () => {
@@ -34,4 +36,17 @@ export const RefreshTokenUtil = () => {
     }
     return () => {}; // 값을 반환
   }, []);
+};
+
+export const ApiFetcher = ({ query, children, loading }: FetcherProps) => {
+  const { isLoading, isError, error, data } = query;
+
+  if (isLoading) return loading;
+  if (isError) {
+    console.log(error);
+    return <Body1>Api 통신 에러!</Body1>;
+  }
+
+  // 호출 시 data 값을 children으로 전달
+  return children(data);
 };
