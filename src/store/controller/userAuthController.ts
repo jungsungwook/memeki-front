@@ -17,6 +17,9 @@ export const userAuthController: any = createApi({
         url: 'signin',
         method: 'post',
         body: formData,
+        axios: {
+          withCredentials: true,
+        },
       }),
     }),
     FindId: builder.mutation({
