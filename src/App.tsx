@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
+import { RefreshTokenUtil } from './util/util';
 import Main from './component/main/index';
 import Pending from './component/main/pending/Pending';
 import Search from './component/search/index';
@@ -17,7 +18,6 @@ import Final from './component/userPage/signUp/Final';
 import MoreYellowBox from './component/search/moreYellowBox/MoreYellowBox';
 import MoreGrayBox from './component/search/moreGrayBox/MoreGrayBox';
 import Success from './component/userPage/signUp/Success';
-import { RefreshTokenUtil } from './util/util';
 
 function App() {
   RefreshTokenUtil();
