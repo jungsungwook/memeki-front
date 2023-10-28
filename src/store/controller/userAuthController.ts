@@ -17,9 +17,9 @@ export const userAuthController: any = createApi({
         url: 'signin',
         method: 'post',
         body: formData,
-        axios: {
-          withCredentials: true,
-        },
+        // axios: {
+        //   withCredentials: true,
+        // },
       }),
     }),
     FindId: builder.mutation({
@@ -41,9 +41,9 @@ export const userAuthController: any = createApi({
         url: 'signout',
         method: 'get',
         headers: { Authorization: accessToken },
-        axios: {
-          withCredentials: true,
-        },
+        // axios: {
+        //   withCredentials: true,
+        // },
       }),
     }),
   }),

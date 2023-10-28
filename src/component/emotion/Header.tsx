@@ -3,6 +3,7 @@
 import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 import theme from '../../styles/theme';
 import { ContainerType, NavItemProps } from '../../types/globalType';
 import Logo from '../../assets/images/logo.png';
@@ -77,16 +78,25 @@ const NavItem = ({ children, to, onClick }: NavItemProps) => {
 };
 
 // Todo: react router dom의 쿼리파라미터 주소구별로 헤더 모양 바꾸기(서치바 유/무)
-// Todo: logout api가 로그인이 되어있지 않을 때도 불러와져 500에러가 남(axios로 바꾸거나 api 안 쓰기)
 export const Header = ({ search }: { search?: boolean }) => {
   const { accessToken } = useSelector(selectUser);
   const dispatch = useDispatch();
-  const { data } = useSignOutQuery({ accessToken });
   // console.log('accessToken: ', accessToken);
 
-  const handleClick = () => {
-    dispatch(logout());
-    alert(data.contents);
+  const handleClick = async () => {
+    try {
+      const response = await axios.get('https://api.memeki.kr/auth/signout', {
+        headers: {
+          Authorization: accessToken,
+        },
+      });
+      if (response.data.statusCode === '200') {
+        dispatch(logout());
+        alert(response.data.contents);
+      }
+    } catch (error) {
+      console.log('logout error: ', error);
+    }
   };
 
   return (
