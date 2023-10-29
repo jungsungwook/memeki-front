@@ -1,40 +1,30 @@
 import axios from 'axios';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectUser, setUser } from '../store/slice/userSlice';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { setUser } from '../store/slice/userSlice';
 import { Body1 } from '../component/emotion/GlobalStyle';
 import { FetcherProps } from '../types/globalType';
 
-// 리프레시 실행시간 설정
-export const RefreshTokenUtil = () => {
+// Todo.로그인이 필요한 api에서 401이 뜨면 이 함수 호출하기
+// 함수 test하기
+export const RefreshTokenUtil = async () => {
   const dispatch = useDispatch();
-  const { accessToken } = useSelector(selectUser);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (accessToken) {
-      const fetchData = async () => {
-        try {
-          const response = await axios.get(
-            'https://api.memeki.kr/auth/refresh',
-          );
-          // const { accessToken } = response.data.contents;
-          dispatch(setUser({ accessToken }));
-        } catch (error) {
-          console.error('Error refreshing token:', error);
-        }
-      };
+  try {
+    const response = await axios.get('https://api.memeki.kr/auth/refresh');
 
-      // 최초 실행
-      fetchData();
-      // 29분마다 실행
-      const interval = setInterval(fetchData, 29 * 60 * 1000);
-      // 컴포넌트가 unmount될 때 interval을 정리
-      return () => {
-        clearInterval(interval);
-      };
+    if (response.data.statusCode === '200') {
+      const { accessToken } = response.data.contents;
+      dispatch(setUser({ accessToken }));
+    } else if (response.data.statusCode === '401') {
+      alert('다시 로그인 해주세요');
+      navigate('/login');
     }
-    return () => {}; // 값을 반환
-  }, []);
+  } catch (error) {
+    console.error('Error refreshing token:', error);
+  }
 };
 
 export const TokenToRedux = () => {
