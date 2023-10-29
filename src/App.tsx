@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
-import { RefreshTokenUtil } from './util/util';
+import { RefreshTokenUtil, TokenToRedux } from './util/util';
 import Main from './component/main/index';
 import Pending from './component/main/pending/Pending';
 import Search from './component/search/index';
@@ -20,7 +20,8 @@ import MoreGrayBox from './component/search/moreGrayBox/MoreGrayBox';
 import Success from './component/userPage/signUp/Success';
 
 function App() {
-  RefreshTokenUtil();
+  // RefreshTokenUtil();
+  TokenToRedux();
 
   return (
     <div className="App">
