@@ -39,6 +39,7 @@ const Login = () => {
         const accessToken = response.data.contents;
         // console.log('accessToken: ', accessToken);
         dispatch(setUser({ accessToken }));
+        sessionStorage.setItem('token', accessToken);
         navigate('/');
       }
     } catch (error) {

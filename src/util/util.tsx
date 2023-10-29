@@ -1,24 +1,23 @@
 import axios from 'axios';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { Cookies } from 'react-cookie';
-import { setUser } from '../store/slice/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUser, setUser } from '../store/slice/userSlice';
 import { Body1 } from '../component/emotion/GlobalStyle';
 import { FetcherProps } from '../types/globalType';
 
 // 리프레시 실행시간 설정
 export const RefreshTokenUtil = () => {
   const dispatch = useDispatch();
-  const cookies = new Cookies();
+  const { accessToken } = useSelector(selectUser);
 
   useEffect(() => {
-    if (cookies.get('Refresh')) {
+    if (accessToken) {
       const fetchData = async () => {
         try {
           const response = await axios.get(
             'https://api.memeki.kr/auth/refresh',
           );
-          const { accessToken } = response.data.contents;
+          // const { accessToken } = response.data.contents;
           dispatch(setUser({ accessToken }));
         } catch (error) {
           console.error('Error refreshing token:', error);
@@ -35,6 +34,16 @@ export const RefreshTokenUtil = () => {
       };
     }
     return () => {}; // 값을 반환
+  }, []);
+};
+
+export const TokenToRedux = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const sessionStorageToken = sessionStorage.getItem('token');
+
+    dispatch(setUser({ accessToken: sessionStorageToken }));
   }, []);
 };
 

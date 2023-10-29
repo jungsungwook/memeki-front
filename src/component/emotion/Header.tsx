@@ -9,7 +9,6 @@ import { ContainerType, NavItemProps } from '../../types/globalType';
 import Logo from '../../assets/images/logo.png';
 import { SearchBar } from './component';
 import { logout, selectUser } from '../../store/slice/userSlice';
-import { useSignOutQuery } from '../../store/controller/userAuthController';
 
 const Nav = ({ children }: ContainerType) => {
   return (
@@ -81,9 +80,9 @@ const NavItem = ({ children, to, onClick }: NavItemProps) => {
 export const Header = ({ search }: { search?: boolean }) => {
   const { accessToken } = useSelector(selectUser);
   const dispatch = useDispatch();
-  // console.log('accessToken: ', accessToken);
+  console.log('redux accessToken: ', accessToken);
 
-  const handleClick = async () => {
+  const onLogoutClick = async () => {
     try {
       const response = await axios.get('https://api.memeki.kr/auth/signout', {
         headers: {
@@ -92,6 +91,7 @@ export const Header = ({ search }: { search?: boolean }) => {
       });
       if (response.data.statusCode === '200') {
         dispatch(logout());
+        sessionStorage.setItem('token', '');
         alert(response.data.contents);
       }
     } catch (error) {
@@ -113,7 +113,7 @@ export const Header = ({ search }: { search?: boolean }) => {
         ) : (
           <>
             <NavItem to="/myPage">마이페이지</NavItem>
-            <NavItem to="/" onClick={handleClick}>
+            <NavItem to="/" onClick={onLogoutClick}>
               로그아웃
             </NavItem>
           </>
