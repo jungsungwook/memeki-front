@@ -18,12 +18,14 @@ export const RefreshTokenUtil = async () => {
     if (response.data.statusCode === '200') {
       const { accessToken } = response.data.contents;
       dispatch(setUser({ accessToken }));
-    } else if (response.data.statusCode === '401') {
+    }
+  } catch (error: any) {
+    if (error.response.data.statusCode === '401') {
       alert('다시 로그인 해주세요');
       navigate('/login');
+    } else {
+      console.error('Error refreshing error:', error);
     }
-  } catch (error) {
-    console.error('Error refreshing token:', error);
   }
 };
 
