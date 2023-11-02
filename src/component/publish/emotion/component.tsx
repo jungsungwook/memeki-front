@@ -22,7 +22,7 @@ export const WhiteInner = ({ children }: ContainerType) => {
         display: flex;
         flex-direction: column;
         align-items: start;
-        gap: 8rem;
+        gap: 4.8rem;
         padding: 4rem 3.2rem;
         margin-top: 16rem;
         border-radius: 1.6rem;
@@ -30,36 +30,6 @@ export const WhiteInner = ({ children }: ContainerType) => {
     >
       {children}
     </section>
-  );
-};
-
-export const InputBox = ({ title, value, name, onChange }: InputBoxType) => {
-  return (
-    <div
-      css={css`
-        width: 100%;
-        padding: 1.6rem 3.2rem;
-        border: 2px solid ${theme.palette.primary[500]};
-        border-radius: 1rem;
-      `}
-    >
-      <input
-        type="text"
-        value={value}
-        onChange={onChange}
-        name={name}
-        placeholder={
-          title
-            ? '밈의 이름을 정의해주세요'
-            : '목차번호를 제외한 소제목을 입력해주세요'
-        }
-        css={css`
-          ${theme.typography.body1}
-          background-color: transparent;
-          width: 100%;
-        `}
-      />
-    </div>
   );
 };
 
@@ -76,6 +46,59 @@ export const RightRowAlign = ({ children, style }: StyleContainerType) => {
       `}
     >
       {children}
+    </div>
+  );
+};
+export const InputBox = ({
+  title,
+  value,
+  name,
+  onChange,
+  field,
+  onClick,
+}: InputBoxType) => {
+  return (
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      `}
+    >
+      {!(title || name === 'firstSubtitle') && (
+        <RightRowAlign>
+          <button type="button" onClick={onClick}>
+            ✖
+          </button>
+        </RightRowAlign>
+      )}
+      <div
+        css={css`
+          width: 100%;
+          padding: 1.6rem 3.2rem;
+          border: 2px solid ${theme.palette.primary[500]};
+          border-radius: 1rem;
+        `}
+      >
+        <input
+          value={value}
+          name={name}
+          onChange={onChange}
+          type="text"
+          placeholder={
+            title
+              ? '밈의 이름을 정의해주세요'
+              : '목차번호를 제외한 소제목을 입력해주세요'
+          }
+          css={css`
+            ${theme.typography.body1}
+            background-color: transparent;
+            width: 100%;
+          `}
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...field}
+        />
+      </div>
     </div>
   );
 };

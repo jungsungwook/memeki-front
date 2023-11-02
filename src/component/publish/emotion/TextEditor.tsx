@@ -1,13 +1,26 @@
 import { useRef, useState, useMemo } from 'react';
 
 // 이렇게 라이브러리를 불러와서 사용하면 됩니다
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import theme from '../../../styles/theme';
 
-export const EditorComponent = () => {
+export const EditorComponent = ({
+  value,
+  onChange,
+}: {
+  value: any;
+  onChange: any;
+}) => {
   const QuillRef = useRef<ReactQuill>();
-  const [contents, setContents] = useState('');
+
+  const bold = Quill.import('formats/bold');
+  bold.tagName = 'b';
+  Quill.register(bold, true);
+
+  const italic = Quill.import('formats/italic');
+  italic.tagName = 'i';
+  Quill.register(italic, true);
 
   // 이미지를 업로드 하기 위한 함수
   const imageHandler = () => {
@@ -64,15 +77,22 @@ export const EditorComponent = () => {
     () => ({
       toolbar: {
         container: [
+          [{ header: [1, 2, false] }],
+          [{ size: ['small', false, 'large', 'huge'] }],
           ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-          [{ size: ['small', false, 'large', 'huge'] }, { color: [] }],
+          // [{ color: [] }, { background: [] }],
           [
             { list: 'ordered' },
             { list: 'bullet' },
             { indent: '-1' },
             { indent: '+1' },
           ],
-          ['image', 'video'],
+          [
+            'image',
+            'video',
+            // 'link'
+          ], // nextDo: link, color, background 개발
+          ['clean'],
         ],
         handlers: {
           image: imageHandler,
@@ -81,6 +101,22 @@ export const EditorComponent = () => {
     }),
     [],
   );
+  const formats = [
+    'header',
+    'size',
+    'italic',
+    'underline',
+    'strike',
+    'blockquote',
+    'list',
+    'bullet',
+    'indent',
+    // 'link',
+    'image',
+    // 'color',
+    // 'background',
+    'bold',
+  ];
 
   return (
     <ReactQuill
@@ -95,9 +131,10 @@ export const EditorComponent = () => {
         border: `2px solid ${theme.palette.primary[500]}`,
         width: '100%',
       }}
-      value={contents}
-      onChange={setContents}
+      value={value}
+      onChange={onChange}
       modules={modules}
+      formats={formats}
       theme="snow"
       placeholder="내용을 입력하세요"
     />
