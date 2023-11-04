@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { Section } from '../emotion/GlobalStyle';
 import { Header } from '../emotion/Header';
@@ -11,9 +12,18 @@ import {
 import { ButtonBox } from '../emotion/component';
 import { EditorComponent } from './emotion/TextEditor';
 import '../../styles/quill.css';
+import { useThumbnailLogic } from './hook';
+import { selectUser } from '../../store/slice/userSlice';
 
 const Index = () => {
-  const { control, handleSubmit, watch } = useForm();
+  const {
+    handleFileSelect,
+    handleDrop,
+    thumbnail,
+    isLoading,
+    GetBackThumbnail,
+  } = useThumbnailLogic();
+  const { control, handleSubmit } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'memeSection',
@@ -21,6 +31,7 @@ const Index = () => {
   const [title, setTitle] = useState('');
   const [firstSubtitle, setFirstSubtitle] = useState('');
   const [firstContent, setFirstContent] = useState('');
+  const { accessToken } = useSelector(selectUser);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -46,7 +57,13 @@ const Index = () => {
     <WhiteInner>
       <Header search />
       <Section gap="2.4">
-        <AttrButton />
+        <AttrButton
+          onDrop={handleDrop}
+          onChange={handleFileSelect}
+          deleteBtn={GetBackThumbnail}
+          imgUrl={thumbnail}
+          isLoading={isLoading}
+        />
         <InputBox
           title
           value={title}

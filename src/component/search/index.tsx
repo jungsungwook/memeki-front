@@ -1,5 +1,4 @@
 import React from 'react';
-import { css } from '@emotion/react';
 import {
   Body1Bold,
   Header2,
@@ -11,7 +10,6 @@ import { Header } from '../emotion/Header';
 import { ButtonBox, SearchBar } from '../emotion/component';
 import penIcon from '../../assets/images/pen.svg';
 import { FindInfo, GoToWrite, MoreButton } from './emotion/component';
-import theme from '../../styles/theme';
 
 const index = () => {
   return (

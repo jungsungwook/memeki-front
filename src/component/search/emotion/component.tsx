@@ -69,6 +69,8 @@ export const FindInfo = ({ cnt, text }: FindInfoType) => {
 
 // todo. 새문서만들기 페이지 이동 버튼함수 구현
 export const GoToWrite = () => {
+  const navigate = useNavigate();
+
   return (
     <div
       css={css`
@@ -91,7 +93,14 @@ export const GoToWrite = () => {
         <img src={arrowIcon} alt="icon" />
         <p>회원님이 만들어보세요</p>
       </div>
-      <ButtonBox type="default">새 문서 만들기</ButtonBox>
+      <ButtonBox
+        type="default"
+        onClick={() => {
+          navigate('/publish');
+        }}
+      >
+        새 문서 만들기
+      </ButtonBox>
     </div>
   );
 };

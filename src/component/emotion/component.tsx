@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ReactComponent as SearchIcon } from '../../assets/images/search.svg';
 import theme from '../../styles/theme';
 import Logo from '../../assets/images/logo.png';
@@ -164,10 +165,12 @@ export const SearchBar = ({ large }: SearchBarType) => {
           ${large ? theme.typography.body1 : theme.typography.body2}
         `}
       ></input>
-      <SearchIcon
-        height={`${large ? '30' : '20'}`}
-        width={`${large ? '30' : '20'}`}
-      />
+      <Link to="/search">
+        <SearchIcon
+          height={`${large ? '30' : '20'}`}
+          width={`${large ? '30' : '20'}`}
+        />
+      </Link>
     </div>
   );
 };
