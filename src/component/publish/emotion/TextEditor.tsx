@@ -1,8 +1,8 @@
 import { useRef, useMemo } from 'react';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { AxiosError } from 'axios';
 import { useSelector } from 'react-redux';
+import { ImageResize } from 'quill-image-resize-module-ts';
 import theme from '../../../styles/theme';
 import { useImageUploadMutation } from '../../../store/controller/imageController';
 import { selectUser } from '../../../store/slice/userSlice';
@@ -31,8 +31,6 @@ export const EditorComponent = ({
   // 이미지를 업로드 하기 위한 함수
   const imageHandler = () => {
     const input = document.createElement('input');
-    const formData = new FormData();
-    const url = '';
 
     input.setAttribute('type', 'file');
     input.setAttribute('accept', 'image/gif, image/jpeg, image/png, image/bmp');
@@ -62,6 +60,7 @@ export const EditorComponent = ({
     });
   };
 
+  Quill.register('modules/imageResize', ImageResize);
   // quill에서 사용할 모듈을 설정하는 코드
   const modules = useMemo(
     () => ({
@@ -86,6 +85,16 @@ export const EditorComponent = ({
         ],
         handlers: {
           image: imageHandler,
+        },
+      },
+      imageResize: {
+        parchment: Quill.import('parchment'),
+        modules: ['Resize', 'DisplaySize'],
+        handleStyles: {
+          backgroundColor: 'black',
+          border: 'none',
+          color: 'white',
+          // other camelCase styles for size display
         },
       },
     }),
