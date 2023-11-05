@@ -56,7 +56,10 @@ export const InputBox = ({
   onChange,
   field,
   onClick,
+  order,
+  parentText,
 }: InputBoxType) => {
+  const thisOrder = order || null;
   return (
     <div
       css={css`
@@ -65,13 +68,29 @@ export const InputBox = ({
         gap: 1rem;
       `}
     >
-      {!(title || name === 'firstSubtitle') && (
-        <RightRowAlign>
-          <button type="button" onClick={onClick}>
-            ✖
-          </button>
-        </RightRowAlign>
+      {!title && (
+        <div
+          css={css`
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 2rem;
+          `}
+        >
+          <ButtonBox type="default" gray>
+            하위 단락 추가
+          </ButtonBox>
+          <p>목차 번호: {parentText ? `${order}.${parentText}` : order}</p>
+          {!(title || name === 'firstSubtitle') && (
+            <RightRowAlign>
+              <button type="button" onClick={onClick}>
+                ✖
+              </button>
+            </RightRowAlign>
+          )}
+        </div>
       )}
+
       <div
         css={css`
           width: 100%;
@@ -109,12 +128,16 @@ export const AttrButton = ({
   imgUrl,
   isLoading,
   deleteBtn,
+  setGlobalNameSpace,
+  setYearNameSpace,
 }: {
   onDrop: any;
   onChange: any;
   imgUrl: string;
   isLoading: boolean;
   deleteBtn: () => void;
+  setGlobalNameSpace: any;
+  setYearNameSpace: any;
 }) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const registerClick = () => {
@@ -154,8 +177,16 @@ export const AttrButton = ({
             gap: 3.2rem;
           `}
         >
-          <SelectBox type="global" publish="국가별 분류 선택" />
-          <SelectBox type="year" publish="년도별 분류 선택" />
+          <SelectBox
+            type="global"
+            publish="국가별 분류 선택"
+            setGlobalNameSpace={setGlobalNameSpace}
+          />
+          <SelectBox
+            type="year"
+            publish="년도별 분류 선택"
+            setYearNameSpace={setYearNameSpace}
+          />
         </div>
         <RightRowAlign
           style={css`

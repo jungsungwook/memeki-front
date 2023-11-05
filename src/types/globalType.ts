@@ -33,6 +33,8 @@ export interface SortButtonType {
 export interface SelectBoxType {
   type: 'popular' | 'global' | 'year';
   publish?: string;
+  setGlobalNameSpace?: any;
+  setYearNameSpace?: any;
 }
 
 export interface SortButtonListType {
@@ -95,6 +97,8 @@ export interface InputBoxType {
   title?: boolean;
   field?: any;
   onClick?: any;
+  order?: number;
+  parentText?: number;
 }
 
 export interface InfoContainerType extends ContainerType {

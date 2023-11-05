@@ -60,3 +60,18 @@ export const useThumbnailLogic = () => {
     GetBackThumbnail,
   };
 };
+
+export const useOrderLogic = () => {
+  const [order, setOrder] = useState([2]);
+  const [parentText, setParentText] = useState([1]);
+
+  // const plusOrder = () => {
+  //   setOrder((order) => [...order, order + 1]);
+  // };
+
+  // const deleteOrder = () => {
+  //   setOrder(order - 1);
+  // };
+
+  return { order, parentText };
+};

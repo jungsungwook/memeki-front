@@ -17,6 +17,9 @@ export const EditorComponent = ({
 }) => {
   const QuillRef = useRef<ReactQuill>();
 
+  // quill에서 사용할 모듈을 설정하는 코드
+  Quill.register('modules/imageResize', ImageResize);
+
   const bold = Quill.import('formats/bold');
   bold.tagName = 'b';
   Quill.register(bold, true);
@@ -60,8 +63,6 @@ export const EditorComponent = ({
     });
   };
 
-  Quill.register('modules/imageResize', ImageResize);
-  // quill에서 사용할 모듈을 설정하는 코드
   const modules = useMemo(
     () => ({
       toolbar: {

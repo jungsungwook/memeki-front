@@ -28,6 +28,8 @@ import { SpaceContainer } from './GlobalStyle';
 export const SelectBox = ({
   type, // onClick,
   publish,
+  setGlobalNameSpace,
+  setYearNameSpace,
 }: SelectBoxType) => {
   const styles = {
     popular: css`
@@ -47,11 +49,20 @@ export const SelectBox = ({
   ); // selectBox의 선택된 옵션 View
 
   useEffect(() => {
-    setSelectedOption(selectOptions[type][0].name);
+    if (publish) {
+      setSelectedOption(publish);
+    } else {
+      setSelectedOption(selectOptions[type][0].name);
+    }
   }, [type]);
 
-  const handleOptionClick = (optionName: string) => {
-    setSelectedOption(optionName);
+  const handleOptionClick = (option: any) => {
+    setSelectedOption(option.name);
+    if (type === 'global') {
+      setGlobalNameSpace(option.namespace);
+    } else if (type === 'year') {
+      setYearNameSpace(option.namespace);
+    }
     // onClick(optionName);
     setIsOpen(false);
   };
@@ -88,7 +99,7 @@ export const SelectBox = ({
             ${theme.typography.body2Bold};
           `}
         >
-          {publish || selectedOption}
+          {selectedOption}
         </div>
         <div
           css={css`
@@ -122,7 +133,7 @@ export const SelectBox = ({
             <button
               key={option.value}
               type="button"
-              onClick={() => handleOptionClick(option.name)}
+              onClick={() => handleOptionClick(option)}
               css={css`
                 display: flex;
                 width: inherit;

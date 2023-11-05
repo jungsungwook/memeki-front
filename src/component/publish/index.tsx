@@ -31,6 +31,8 @@ const Index = () => {
   const [title, setTitle] = useState('');
   const [firstSubtitle, setFirstSubtitle] = useState('');
   const [firstContent, setFirstContent] = useState('');
+  const [globalNameSpace, setGlobalNameSpace] = useState(0);
+  const [yearNameSpace, setYearNameSpace] = useState(0);
   const { accessToken } = useSelector(selectUser);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,8 +51,18 @@ const Index = () => {
       },
       ...formData.memeSection,
     ];
+    const sendData = {
+      page: {
+        namespace: [globalNameSpace, yearNameSpace],
+        thumbnail: { thumbnail },
+        title: { title },
+        is_redirect: 0,
+      },
+      pageText: { pageText },
+    };
     console.log(pageText); // 폼 데이터를 제출할 때 실행되는 함수
-    console.log('formData: ', formData);
+    console.log(fields);
+    console.log('sendData: ', sendData);
   };
 
   return (
@@ -61,6 +73,8 @@ const Index = () => {
           onDrop={handleDrop}
           onChange={handleFileSelect}
           deleteBtn={GetBackThumbnail}
+          setGlobalNameSpace={setGlobalNameSpace}
+          setYearNameSpace={setYearNameSpace}
           imgUrl={thumbnail}
           isLoading={isLoading}
         />
@@ -76,6 +90,7 @@ const Index = () => {
           value={firstSubtitle}
           onChange={handleTitleChange}
           name="firstSubtitle"
+          order={1}
         />
         <EditorComponent value={firstContent} onChange={setFirstContent} />
       </Section>
