@@ -60,6 +60,7 @@ export const InputBox = ({
   parentText,
 }: InputBoxType) => {
   const thisOrder = order || null;
+  const thisparentText = parentText || null;
   return (
     <div
       css={css`

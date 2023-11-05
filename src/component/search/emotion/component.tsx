@@ -6,6 +6,8 @@ import arrowIcon from '../../../assets/images/rightArrow.svg';
 import theme from '../../../styles/theme';
 import { ButtonBox } from '../../emotion/component';
 import { FindInfoType, MoreButtonType } from '../../../types/globalType';
+import penIcon from '../../../assets/images/pen.svg';
+import { Body1Bold } from '../../emotion/GlobalStyle';
 
 export const MoreButton = ({ to }: MoreButtonType) => {
   const navigate = useNavigate();
@@ -67,40 +69,46 @@ export const FindInfo = ({ cnt, text }: FindInfoType) => {
   );
 };
 
-// todo. 새문서만들기 페이지 이동 버튼함수 구현
-export const GoToWrite = () => {
+export const GoToWrite = ({ btn }: { btn?: boolean }) => {
   const navigate = useNavigate();
 
+  const btnClick = () => {
+    navigate('/publish');
+  };
   return (
-    <div
-      css={css`
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        background-color: ${theme.palette.primary[200]};
-        padding: 2.4rem 4rem;
-        border-radius: 1.2rem;
-      `}
-    >
-      <div
-        css={css`
-          display: flex;
-          gap: 0.8rem;
-          ${theme.typography.body1Bold}
-        `}
-      >
-        <img src={arrowIcon} alt="icon" />
-        <p>회원님이 만들어보세요</p>
-      </div>
-      <ButtonBox
-        type="default"
-        onClick={() => {
-          navigate('/publish');
-        }}
-      >
-        새 문서 만들기
-      </ButtonBox>
+    <div>
+      {btn ? (
+        <ButtonBox type="square" onClick={btnClick}>
+          <img src={penIcon} alt="icon" />
+          <Body1Bold>새 문서</Body1Bold>
+        </ButtonBox>
+      ) : (
+        <div
+          css={css`
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            background-color: ${theme.palette.primary[200]};
+            padding: 2.4rem 4rem;
+            border-radius: 1.2rem;
+          `}
+        >
+          <div
+            css={css`
+              display: flex;
+              gap: 0.8rem;
+              ${theme.typography.body1Bold}
+            `}
+          >
+            <img src={arrowIcon} alt="icon" />
+            <p>회원님이 만들어보세요</p>
+          </div>
+          <ButtonBox type="default" onClick={btnClick}>
+            새 문서 만들기
+          </ButtonBox>
+        </div>
+      )}
     </div>
   );
 };
