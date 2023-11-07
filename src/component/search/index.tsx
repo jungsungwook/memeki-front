@@ -32,61 +32,57 @@ const Index = () => {
         <GoToWrite btn />
 
         <Section gap="1.6">
-          <ApiFetcher
-            query={useSearchBoxQuery({ accessToken, pageData })}
-            loading={<div>로딩중...</div>}
-          >
-            {(ListData) => (
-              <>
-                <SpaceContainer>
-                  <Header2>추천 문서</Header2>
-                  {ListData.contents.auth.count +
-                    ListData.contents.recommend.count >
-                    6 && <MoreButton to="/search/more" />}
-                </SpaceContainer>
-                <FindInfo
-                  cnt={
-                    ListData.contents.auth.count +
-                    ListData.contents.recommend.count
-                  }
-                />
-                <MemeBoxList>
-                  {ListData.contents.auth.page.map((meme: any) => (
-                    <MemeBox
-                      key={meme.id}
-                      type="auth"
-                      thumbnail={meme.thumbnail}
-                      title={meme.title}
-                      createdAt={meme.createdAt}
-                      isLiked={meme.is_liked}
-                      likeCount={meme.like_count}
-                    />
-                  ))}
-                  {ListData.contents.auth.count < 6 &&
-                    ListData.contents.recommend.page
-                      .slice(0, 6 - ListData.contents.auth.count)
-                      .map((meme: any) => (
-                        <MemeBox
-                          key={meme.id}
-                          type="recommend"
-                          thumbnail={meme.thumbnail}
-                          title={meme.title}
-                          createdAt={meme.createdAt}
-                          isLiked={meme.is_liked}
-                          likeCount={meme.like_count}
-                        />
-                      ))}
-                </MemeBoxList>
-              </>
-            )}
+          <ApiFetcher query={useSearchBoxQuery({ accessToken, pageData })}>
+            {(ListData) =>
+              ListData.statusCode === '200' && (
+                <>
+                  <SpaceContainer>
+                    <Header2>추천 문서</Header2>
+                    {ListData.contents.auth.count +
+                      ListData.contents.recommend.count >
+                      6 && <MoreButton to="/search/more" />}
+                  </SpaceContainer>
+                  <FindInfo
+                    cnt={
+                      ListData.contents.auth.count +
+                      ListData.contents.recommend.count
+                    }
+                  />
+                  <MemeBoxList>
+                    {ListData.contents.auth.page.map((meme: any) => (
+                      <MemeBox
+                        key={meme.id}
+                        type="auth"
+                        thumbnail={meme.thumbnail}
+                        title={meme.title}
+                        createdAt={meme.createdAt}
+                        isLiked={meme.is_liked}
+                        likeCount={meme.like_count}
+                      />
+                    ))}
+                    {ListData.contents.auth.count < 6 &&
+                      ListData.contents.recommend.page
+                        .slice(0, 6 - ListData.contents.auth.count)
+                        .map((meme: any) => (
+                          <MemeBox
+                            key={meme.id}
+                            type="recommend"
+                            thumbnail={meme.thumbnail}
+                            title={meme.title}
+                            createdAt={meme.createdAt}
+                            isLiked={meme.is_liked}
+                            likeCount={meme.like_count}
+                          />
+                        ))}
+                  </MemeBoxList>
+                </>
+              )
+            }
           </ApiFetcher>
         </Section>
 
         <Section gap="1.6">
-          <ApiFetcher
-            query={useSearchBoxQuery({ accessToken, pageData })}
-            loading={<div>로딩중...</div>}
-          >
+          <ApiFetcher query={useSearchBoxQuery({ accessToken, pageData })}>
             {(ListData) => (
               <>
                 <SpaceContainer>
