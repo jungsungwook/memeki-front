@@ -1,47 +1,121 @@
 import React from 'react';
-import { css } from '@emotion/react';
+import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
-  Body1Bold,
   Header2,
   Inner,
   Section,
   SpaceContainer,
 } from '../emotion/GlobalStyle';
 import { Header } from '../emotion/Header';
-import { ButtonBox, SearchBar } from '../emotion/component';
-import penIcon from '../../assets/images/pen.svg';
+import { MemeBox, MemeBoxList, SearchBar } from '../emotion/component';
 import { FindInfo, GoToWrite, MoreButton } from './emotion/component';
-import theme from '../../styles/theme';
+import { useSearchBoxQuery } from '../../store/controller/pageController';
+import { selectUser } from '../../store/slice/userSlice';
+import { ApiFetcher } from '../../util/util';
 
-const index = () => {
+const Index = () => {
+  const location = useLocation();
+  const limit = new URLSearchParams(location.search).get('limit');
+  const search = new URLSearchParams(location.search).get('search');
+  const { accessToken } = useSelector(selectUser);
+  const pageData = {
+    limit,
+    search,
+  };
+
   return (
     <Inner>
       <Header />
       <Section gap="3.2">
         <SearchBar large />
-        <ButtonBox type="square">
-          <img src={penIcon} alt="icon" />
-          <Body1Bold>새 문서</Body1Bold>
-        </ButtonBox>
+        <GoToWrite btn />
 
         <Section gap="1.6">
-          <SpaceContainer>
-            <Header2>추천 문서</Header2>
-            <MoreButton to="/search/more" />
-          </SpaceContainer>
-          <FindInfo cnt={2} />
-          <GoToWrite />
+          <ApiFetcher
+            query={useSearchBoxQuery({ accessToken, pageData })}
+            loading={<div>로딩중...</div>}
+          >
+            {(ListData) => (
+              <>
+                <SpaceContainer>
+                  <Header2>추천 문서</Header2>
+                  {ListData.contents.auth.count +
+                    ListData.contents.recommend.count >
+                    6 && <MoreButton to="/search/more" />}
+                </SpaceContainer>
+                <FindInfo
+                  cnt={
+                    ListData.contents.auth.count +
+                    ListData.contents.recommend.count
+                  }
+                />
+                <MemeBoxList>
+                  {ListData.contents.auth.page.map((meme: any) => (
+                    <MemeBox
+                      key={meme.id}
+                      type="auth"
+                      thumbnail={meme.thumbnail}
+                      title={meme.title}
+                      createdAt={meme.createdAt}
+                      isLiked={meme.is_liked}
+                      likeCount={meme.like_count}
+                    />
+                  ))}
+                  {ListData.contents.auth.count < 6 &&
+                    ListData.contents.recommend.page
+                      .slice(0, 6 - ListData.contents.auth.count)
+                      .map((meme: any) => (
+                        <MemeBox
+                          key={meme.id}
+                          type="recommend"
+                          thumbnail={meme.thumbnail}
+                          title={meme.title}
+                          createdAt={meme.createdAt}
+                          isLiked={meme.is_liked}
+                          likeCount={meme.like_count}
+                        />
+                      ))}
+                </MemeBoxList>
+              </>
+            )}
+          </ApiFetcher>
         </Section>
 
         <Section gap="1.6">
-          <SpaceContainer>
-            <Header2>대기 문서</Header2>
-            <MoreButton to="/search/morePending" />
-          </SpaceContainer>
+          <ApiFetcher
+            query={useSearchBoxQuery({ accessToken, pageData })}
+            loading={<div>로딩중...</div>}
+          >
+            {(ListData) => (
+              <>
+                <SpaceContainer>
+                  <Header2>대기 문서</Header2>
+                  {ListData.contents.waiting.count > 6 && (
+                    <MoreButton to="/search/morePending" />
+                  )}
+                </SpaceContainer>
+                <FindInfo cnt={ListData.contents.waiting.count} />
+                <MemeBoxList>
+                  {ListData.contents.waiting.page.map((meme: any) => (
+                    <MemeBox
+                      key={meme.id}
+                      type="pending"
+                      thumbnail={meme.thumbnail}
+                      title={meme.title}
+                      createdAt={meme.createdAt}
+                      isLiked={meme.is_liked}
+                      likeCount={meme.like_count}
+                    />
+                  ))}
+                </MemeBoxList>
+              </>
+            )}
+          </ApiFetcher>
         </Section>
       </Section>
     </Inner>
   );
 };
 
-export default index;
+export default Index;

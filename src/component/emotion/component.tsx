@@ -1,10 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ReactComponent as SearchIcon } from '../../assets/images/search.svg';
 import theme from '../../styles/theme';
-import Logo from '../../assets/images/logo.png';
 import likeIcon from '../../assets/images/like.svg';
+import unlikeIcon from '../../assets/images/unlike.svg';
 import selectBoxArrow from '../../assets/images/selectBoxArrow.svg';
 import {
   ButtonBoxType,
@@ -27,6 +28,8 @@ import { SpaceContainer } from './GlobalStyle';
 export const SelectBox = ({
   type, // onClick,
   publish,
+  setGlobalNameSpace,
+  setYearNameSpace,
 }: SelectBoxType) => {
   const styles = {
     popular: css`
@@ -46,11 +49,20 @@ export const SelectBox = ({
   ); // selectBox의 선택된 옵션 View
 
   useEffect(() => {
-    setSelectedOption(selectOptions[type][0].name);
+    if (publish) {
+      setSelectedOption(publish);
+    } else {
+      setSelectedOption(selectOptions[type][0].name);
+    }
   }, [type]);
 
-  const handleOptionClick = (optionName: string) => {
-    setSelectedOption(optionName);
+  const handleOptionClick = (option: any) => {
+    setSelectedOption(option.name);
+    if (type === 'global') {
+      setGlobalNameSpace(option.namespace);
+    } else if (type === 'year') {
+      setYearNameSpace(option.namespace);
+    }
     // onClick(optionName);
     setIsOpen(false);
   };
@@ -87,7 +99,7 @@ export const SelectBox = ({
             ${theme.typography.body2Bold};
           `}
         >
-          {publish || selectedOption}
+          {selectedOption}
         </div>
         <div
           css={css`
@@ -121,7 +133,7 @@ export const SelectBox = ({
             <button
               key={option.value}
               type="button"
-              onClick={() => handleOptionClick(option.name)}
+              onClick={() => handleOptionClick(option)}
               css={css`
                 display: flex;
                 width: inherit;
@@ -144,6 +156,35 @@ export const SelectBox = ({
 };
 
 export const SearchBar = ({ large }: SearchBarType) => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const searchTerm = queryParams.get('search') || '';
+  const limitValue = 6;
+
+  const navigate = useNavigate();
+
+  const [searchInput, setSearchInput] = useState(searchTerm);
+
+  const handleSearchChange = (e: any) => {
+    const newSearchTerm = e.target.value;
+    setSearchInput(newSearchTerm);
+  };
+  const handleSearchEnter = (e: any) => {
+    if (e.key === 'Enter') {
+      if (searchInput === '') {
+        navigate(`/search?limit=${limitValue}`);
+        return;
+      }
+      navigate(`/search?search=${searchInput.toString()}&limit=${limitValue}`);
+    }
+  };
+  const handleSearchClick = () => {
+    if (searchInput === '') {
+      navigate(`/search?limit=${limitValue}`);
+      return;
+    }
+    navigate(`/search?search=${searchInput.toString()}&limit=${limitValue}`);
+  };
   return (
     <div
       css={css`
@@ -157,6 +198,9 @@ export const SearchBar = ({ large }: SearchBarType) => {
       `}
     >
       <input
+        value={searchInput}
+        onChange={handleSearchChange}
+        onKeyPress={handleSearchEnter}
         placeholder="밈을 검색해 보세요"
         css={css`
           width: inherit;
@@ -165,6 +209,7 @@ export const SearchBar = ({ large }: SearchBarType) => {
         `}
       ></input>
       <SearchIcon
+        onClick={handleSearchClick}
         height={`${large ? '30' : '20'}`}
         width={`${large ? '30' : '20'}`}
       />
@@ -172,33 +217,47 @@ export const SearchBar = ({ large }: SearchBarType) => {
   );
 };
 
-// todo. 썸네일 디폴트 미미키, 동적으로 바꾸기
-// 인증박스, 기본박스, 대기박스로 나누기
-export const MemeBox = () => {
+export const MemeBox = ({
+  type,
+  thumbnail,
+  title,
+  createdAt,
+  isLiked,
+  likeCount,
+}: {
+  type: 'auth' | 'recommend' | 'pending';
+  thumbnail: string;
+  title: string;
+  createdAt: string;
+  isLiked: boolean;
+  likeCount: number;
+}) => {
   return (
     <div
       css={css`
         width: 38.4rem;
         height: 39.5rem;
         border-radius: 1.6rem;
-        background: ${theme.palette.primary[500]}; // 기본박스
-        /* background: ${theme.palette.gray[300]}; // 대기박스
-        color: ${theme.palette.gray[600]}; // 대기박스 */
+        background: ${type === 'pending'
+          ? theme.palette.gray[300]
+          : theme.palette.primary[500]};
+        color: ${type === 'pending' ? theme.palette.gray[600] : 'none'};
         padding: 1.6rem;
         position: relative;
       `}
     >
-      <img
-        src={memeCertifyIcon}
-        alt="밈인증"
-        loading="lazy"
-        css={css`
-          position: absolute;
-          left: 0;
-          top: 0;
-          /* visibility: hidden; // 인증마크 숨기기 */
-        `}
-      />
+      {type === 'auth' && (
+        <img
+          src={memeCertifyIcon}
+          alt="밈인증"
+          loading="lazy"
+          css={css`
+            position: absolute;
+            left: 0;
+            top: 0;
+          `}
+        />
+      )}
       <div
         css={css`
           background-color: ${theme.palette.gray.white};
@@ -210,7 +269,7 @@ export const MemeBox = () => {
           align-items: center;
         `}
       >
-        <img src={Logo} alt="logo" width={100} />
+        <img src={thumbnail} alt="thumbnail" width={100} />
       </div>
       <div
         css={css`
@@ -218,7 +277,7 @@ export const MemeBox = () => {
           margin: 3.2rem 0 4.8rem;
         `}
       >
-        제목...
+        {title}
       </div>
       <div
         css={css`
@@ -228,15 +287,19 @@ export const MemeBox = () => {
           ${theme.typography.body2}
         `}
       >
-        <p>발행날짜</p>
+        <p>{createdAt}</p>
         <div
           css={css`
             display: flex;
             gap: 0.4rem;
           `}
         >
-          <img src={likeIcon} alt="like" />
-          <p>like cnt</p>
+          {isLiked ? (
+            <img src={likeIcon} alt="like" />
+          ) : (
+            <img src={unlikeIcon} alt="unlike" />
+          )}
+          <p>{likeCount}</p>
         </div>
       </div>
     </div>

@@ -37,7 +37,7 @@ const Login = () => {
       console.log('response: ', response);
       if (response.data.statusCode === '200') {
         const accessToken = response.data.contents;
-        // console.log('accessToken: ', accessToken);
+        console.log('accessToken: ', accessToken);
         dispatch(setUser({ accessToken }));
         sessionStorage.setItem('token', accessToken);
         navigate('/');
