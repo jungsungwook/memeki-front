@@ -208,11 +208,12 @@ export const SearchBar = ({ large }: SearchBarType) => {
           ${large ? theme.typography.body1 : theme.typography.body2}
         `}
       ></input>
-      <SearchIcon
-        onClick={handleSearchClick}
-        height={`${large ? '30' : '20'}`}
-        width={`${large ? '30' : '20'}`}
-      />
+      <button type="button" onClick={handleSearchClick}>
+        <SearchIcon
+          height={`${large ? '30' : '20'}`}
+          width={`${large ? '30' : '20'}`}
+        />
+      </button>
     </div>
   );
 };
