@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setUser } from '../store/slice/userSlice';
@@ -39,15 +39,15 @@ export const TokenToRedux = () => {
   }, []);
 };
 
-export const ApiFetcher = ({ query, children, loading }: FetcherProps) => {
+export const ApiFetcher = ({ query, children }: FetcherProps) => {
   const { isLoading, isError, error, data } = query;
 
-  if (isLoading) return loading;
+  if (isLoading) return <Body1>로딩중...</Body1>;
   if (isError) {
     console.log(error);
     return <Body1>Api 통신 에러!</Body1>;
   }
 
   // 호출 시 data 값을 children으로 전달
-  return children(data);
+  return <>{children(data)}</>;
 };

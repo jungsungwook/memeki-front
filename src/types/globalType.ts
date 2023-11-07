@@ -115,7 +115,6 @@ export interface FetcherProps {
     data?: any;
   };
   children: (data: any) => React.ReactNode;
-  loading: React.ReactNode;
 }
 
 export interface fieldType {
