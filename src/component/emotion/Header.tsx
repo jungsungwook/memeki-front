@@ -80,7 +80,7 @@ const NavItem = ({ children, to, onClick }: NavItemProps) => {
 export const Header = ({ search }: { search?: boolean }) => {
   const { accessToken } = useSelector(selectUser);
   const dispatch = useDispatch();
-  console.log('redux accessToken: ', accessToken);
+  // console.log('redux accessToken: ', accessToken);
 
   const onLogoutClick = async () => {
     try {

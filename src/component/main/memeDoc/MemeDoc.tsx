@@ -9,7 +9,7 @@ const MemeDoc = () => {
       <Header search />
       <Section gap="3.2">
         <SortButtonList />
-        <MemeBoxList>
+        {/* <MemeBoxList>
           <MemeBox />
           <MemeBox />
           <MemeBox />
@@ -18,7 +18,7 @@ const MemeDoc = () => {
           <MemeBox />
           <MemeBox />
           <MemeBox />
-        </MemeBoxList>
+        </MemeBoxList> */}
       </Section>
     </Inner>
   );

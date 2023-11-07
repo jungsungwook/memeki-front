@@ -11,7 +11,7 @@ const MoreGrayBox = () => {
       <Section gap="1.6">
         <SortButton type="pendingDoc" />
         <FindInfo text="개구리" />
-        <MemeBoxList>
+        {/* <MemeBoxList>
           <MemeBox />
           <MemeBox />
           <MemeBox />
@@ -20,7 +20,7 @@ const MoreGrayBox = () => {
           <MemeBox />
           <MemeBox />
           <MemeBox />
-        </MemeBoxList>
+        </MemeBoxList> */}
       </Section>
     </Inner>
   );

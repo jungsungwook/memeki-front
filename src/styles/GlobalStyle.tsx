@@ -7,6 +7,7 @@ const GlobalStyle = () => {
     <Global
       styles={css`
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        /* @import url('https://cdn.quilljs.com/1.3.6/quill.snow.css'); */
         html,
         body,
         div,
@@ -94,7 +95,7 @@ const GlobalStyle = () => {
           padding: 0;
           border: 0;
           font-size: 100%;
-          font: inherit;
+          /* font: inherit; */
           vertical-align: baseline;
           box-sizing: border-box;
         }
@@ -161,6 +162,12 @@ const GlobalStyle = () => {
         }
         form {
           width: 100%;
+        }
+        h1 {
+          font-size: 2em;
+        }
+        h2 {
+          font-size: 1.6em;
         }
       `}
     />

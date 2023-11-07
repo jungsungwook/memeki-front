@@ -33,6 +33,8 @@ export interface SortButtonType {
 export interface SelectBoxType {
   type: 'popular' | 'global' | 'year';
   publish?: string;
+  setGlobalNameSpace?: any;
+  setYearNameSpace?: any;
 }
 
 export interface SortButtonListType {
@@ -89,10 +91,14 @@ export interface MoreButtonType {
 }
 
 export interface InputBoxType {
+  value?: string;
+  name?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   title?: boolean;
-  value: string;
-  name: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  field?: any;
+  onClick?: any;
+  order?: number;
+  parentText?: number;
 }
 
 export interface InfoContainerType extends ContainerType {
@@ -110,4 +116,11 @@ export interface FetcherProps {
   };
   children: (data: any) => React.ReactNode;
   loading: React.ReactNode;
+}
+
+export interface fieldType {
+  id: number;
+  order: number;
+  title: string;
+  content: string;
 }
