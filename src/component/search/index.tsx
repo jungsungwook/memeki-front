@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
   Header2,
@@ -18,7 +18,6 @@ const Index = () => {
   const location = useLocation();
   const limit = new URLSearchParams(location.search).get('limit');
   const search = new URLSearchParams(location.search).get('search');
-  console.log('location: ', location.search);
   const { accessToken } = useSelector(selectUser);
   const pageData = {
     limit,
@@ -52,16 +51,6 @@ const Index = () => {
                   }
                 />
                 <MemeBoxList>
-                  {console.log('accessToken: ', accessToken)}
-                  {console.log(
-                    'cnt: ',
-                    ListData.contents.auth.count +
-                      ListData.contents.waiting.count,
-                  )}
-                  {console.log(
-                    'ListData.contents.recommend.page: ',
-                    ListData.contents.recommend.page,
-                  )}
                   {ListData.contents.auth.page.map((meme: any) => (
                     <MemeBox
                       key={meme.id}
@@ -108,10 +97,6 @@ const Index = () => {
                 </SpaceContainer>
                 <FindInfo cnt={ListData.contents.waiting.count} />
                 <MemeBoxList>
-                  {console.log(
-                    'ListData.contents.waiting.page: ',
-                    ListData.contents.waiting.page,
-                  )}
                   {ListData.contents.waiting.page.map((meme: any) => (
                     <MemeBox
                       key={meme.id}
