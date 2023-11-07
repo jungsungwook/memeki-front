@@ -21,7 +21,7 @@ function Detail() {
       index
       <SearchBar large />
       <SearchBar />
-      <MemeBoxList>
+      {/* <MemeBoxList>
         <MemeBox />
         <MemeBox />
         <MemeBox />
@@ -29,10 +29,10 @@ function Detail() {
         <MemeBox />
         <MemeBox />
         <MemeBox />
-      </MemeBoxList>
+      </MemeBoxList> */}
       <SortButtonList main />
       <SortButtonList />
-      <MemeBox />
+      {/* <MemeBox /> */}
       <img src={YearIcon} alt="icon" />
       <img src={Logo} alt="memeki" width={200} />
       <Recent fill={`${theme.palette.primary[500]}`} height="200" />

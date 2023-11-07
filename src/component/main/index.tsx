@@ -36,7 +36,7 @@ const index = () => {
       <SearchBar large />
       <Section gap="3.2">
         <SortButtonList main />
-        <MemeBoxList>
+        {/* <MemeBoxList>
           <MemeBox />
           <MemeBox />
           <MemeBox />
@@ -44,7 +44,7 @@ const index = () => {
           <MemeBox />
           <MemeBox />
           <MemeBox />
-        </MemeBoxList>
+        </MemeBoxList> */}
       </Section>
     </Inner>
   );

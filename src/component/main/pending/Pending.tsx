@@ -9,7 +9,7 @@ const Pending = () => {
       <Header search />
       <Section gap="3.2">
         <SortButton type="pendingDoc" />
-        <MemeBoxList>
+        {/* <MemeBoxList>
           <MemeBox />
           <MemeBox />
           <MemeBox />
@@ -18,7 +18,7 @@ const Pending = () => {
           <MemeBox />
           <MemeBox />
           <MemeBox />
-        </MemeBoxList>
+        </MemeBoxList> */}
       </Section>
     </Inner>
   );

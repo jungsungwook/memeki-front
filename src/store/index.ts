@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import userSlice from './slice/userSlice';
 import { userAuthController } from './controller/userAuthController';
 import imageController from './controller/imageController';
+import pageController from './controller/pageController';
 
 const store = configureStore({
   reducer: {
     user: userSlice,
     [userAuthController.reducerPath]: userAuthController.reducer,
     [imageController.reducerPath]: imageController.reducer,
+    [pageController.reducerPath]: pageController.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

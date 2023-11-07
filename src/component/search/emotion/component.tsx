@@ -29,46 +29,6 @@ export const MoreButton = ({ to }: MoreButtonType) => {
     </button>
   );
 };
-
-export const FindInfo = ({ cnt, text }: FindInfoType) => {
-  return (
-    <div
-      css={css`
-        ${theme.typography.body1Bold}
-        display: flex;
-        flex-direction: row;
-      `}
-    >
-      {!text && !cnt ? (
-        '검색 결과가 없습니다. 다른 키워드로 시도해보세요.'
-      ) : text ? (
-        <>
-          <p
-            css={css`
-              color: ${theme.palette.primary[500]};
-            `}
-          >
-            &apos;{text}&apos;
-          </p>
-          에 대한 결과입니다
-        </>
-      ) : (
-        <>
-          총&nbsp;
-          <p
-            css={css`
-              color: ${theme.palette.primary[500]};
-            `}
-          >
-            {cnt}개
-          </p>
-          의 문서를 찾았습니다
-        </>
-      )}
-    </div>
-  );
-};
-
 export const GoToWrite = ({ btn }: { btn?: boolean }) => {
   const navigate = useNavigate();
 
@@ -110,5 +70,47 @@ export const GoToWrite = ({ btn }: { btn?: boolean }) => {
         </div>
       )}
     </div>
+  );
+};
+
+export const FindInfo = ({ cnt, text }: FindInfoType) => {
+  return (
+    <>
+      <div
+        css={css`
+          ${theme.typography.body1Bold}
+          display: flex;
+          flex-direction: row;
+        `}
+      >
+        {!text && !cnt ? (
+          '검색 결과가 없습니다.'
+        ) : text ? (
+          <>
+            <p
+              css={css`
+                color: ${theme.palette.primary[500]};
+              `}
+            >
+              &apos;{text}&apos;
+            </p>
+            에 대한 결과입니다
+          </>
+        ) : (
+          <>
+            총&nbsp;
+            <p
+              css={css`
+                color: ${theme.palette.primary[500]};
+              `}
+            >
+              {cnt}개
+            </p>
+            의 문서를 찾았습니다
+          </>
+        )}
+      </div>
+      {cnt !== undefined && cnt < 4 && <GoToWrite />}
+    </>
   );
 };
