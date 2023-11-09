@@ -57,10 +57,10 @@ export const InputBox = ({
   field,
   onClick,
   order,
-  parentText,
+  parentOrder,
+  parentTextUid,
+  append,
 }: InputBoxType) => {
-  const thisOrder = order || null;
-  const thisparentText = parentText || null;
   return (
     <div
       css={css`
@@ -78,10 +78,18 @@ export const InputBox = ({
             gap: 2rem;
           `}
         >
-          <ButtonBox type="default" gray>
-            하위 단락 추가
-          </ButtonBox>
-          <p>목차 번호: {parentText ? `${order}.${parentText}` : order}</p>
+          {append && (
+            <ButtonBox
+              type="default"
+              gray
+              onClick={() => {
+                append({ title: '', content: '', parent_uid: parentTextUid });
+              }}
+            >
+              하위 단락 추가
+            </ButtonBox>
+          )}
+          <p>목차 번호: {parentOrder ? `${parentOrder}.${order}` : order}</p>
           {!(title || name === 'firstSubtitle') && (
             <RightRowAlign>
               <button type="button" onClick={onClick}>

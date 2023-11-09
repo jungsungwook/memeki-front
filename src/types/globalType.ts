@@ -98,7 +98,9 @@ export interface InputBoxType {
   field?: any;
   onClick?: any;
   order?: number;
-  parentText?: number;
+  parentOrder?: number;
+  parentTextUid?: string;
+  append?: any;
 }
 
 export interface InfoContainerType extends ContainerType {
