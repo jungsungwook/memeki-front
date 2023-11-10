@@ -54,12 +54,12 @@ export const InputBox = ({
   value,
   name,
   onChange,
-  field,
-  onClick,
+  onClickRemove,
   order,
   parentOrder,
-  parentTextUid,
+  parentUid,
   append,
+  subTitle,
 }: InputBoxType) => {
   return (
     <div
@@ -79,20 +79,14 @@ export const InputBox = ({
           `}
         >
           {append && (
-            <ButtonBox
-              type="default"
-              gray
-              onClick={() => {
-                append({ title: '', content: '', parent_uid: parentTextUid });
-              }}
-            >
+            <ButtonBox type="default" gray onClick={append}>
               하위 단락 추가
             </ButtonBox>
           )}
           <p>목차 번호: {parentOrder ? `${parentOrder}.${order}` : order}</p>
-          {!(title || name === 'firstSubtitle') && (
+          {!(title || subTitle) && (
             <RightRowAlign>
-              <button type="button" onClick={onClick}>
+              <button type="button" onClick={onClickRemove}>
                 ✖
               </button>
             </RightRowAlign>
@@ -123,8 +117,6 @@ export const InputBox = ({
             background-color: transparent;
             width: 100%;
           `}
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...field}
         />
       </div>
     </div>

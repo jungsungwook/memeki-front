@@ -95,12 +95,12 @@ export interface InputBoxType {
   name?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   title?: boolean;
-  field?: any;
-  onClick?: any;
+  onClickRemove?: any;
   order?: number;
   parentOrder?: number;
-  parentTextUid?: string;
+  parentUid?: string;
   append?: any;
+  subTitle?: boolean;
 }
 
 export interface InfoContainerType extends ContainerType {
