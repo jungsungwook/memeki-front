@@ -270,7 +270,17 @@ export const MemeBox = ({
           align-items: center;
         `}
       >
-        <img src={thumbnail} alt="thumbnail" width={100} />
+        <img
+          src={thumbnail}
+          alt=""
+          css={css`
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+          `}
+        />
       </div>
       <div
         css={css`
