@@ -106,8 +106,8 @@ export const Header = ({ search }: { search?: boolean }) => {
       </Link>
       {search && <SearchBar />}
       <NavList>
-        <NavItem to="/memeDoc">밈문서</NavItem>
-        <NavItem to="/pending">대기문서</NavItem>
+        <NavItem to="/memeDoc?page=1&namespace=1">밈문서</NavItem>
+        <NavItem to="/pending?page=1">대기문서</NavItem>
         {!accessToken ? (
           <NavItem to="/login">로그인</NavItem>
         ) : (

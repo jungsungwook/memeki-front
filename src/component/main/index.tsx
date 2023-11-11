@@ -1,6 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import theme from '../../styles/theme';
 import {
   MemeBox,
@@ -16,6 +17,8 @@ import { selectUser } from '../../store/slice/userSlice';
 
 const Index = () => {
   const { accessToken } = useSelector(selectUser);
+  const location = useLocation();
+  const queryUrl = `page${location.search}`;
   return (
     <Inner>
       <Header />
@@ -41,12 +44,13 @@ const Index = () => {
       <SearchBar large />
       <Section gap="3.2">
         <SortButtonList main />
-        <ApiFetcher query={useSearchBoxQuery({ accessToken })}>
+        <ApiFetcher query={useSearchBoxQuery({ accessToken, queryUrl })}>
           {(ListData) => (
             <MemeBoxList>
               {ListData.contents.auth.page.map((meme: any) => (
                 <MemeBox
                   key={meme.id}
+                  id={meme.id}
                   type="auth"
                   thumbnail={meme.thumbnail}
                   title={meme.title}
@@ -58,7 +62,8 @@ const Index = () => {
               {ListData.contents.recommend.page.map((meme: any) => (
                 <MemeBox
                   key={meme.id}
-                  type="auth"
+                  id={meme.id}
+                  type="recommend"
                   thumbnail={meme.thumbnail}
                   title={meme.title}
                   createdAt={meme.createdAt}

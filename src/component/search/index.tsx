@@ -47,6 +47,7 @@ const Index = () => {
                     {ListData.contents.auth.page.map((meme: any) => (
                       <MemeBox
                         key={meme.id}
+                        id={meme.id}
                         type="auth"
                         thumbnail={meme.thumbnail}
                         title={meme.title}
@@ -61,6 +62,7 @@ const Index = () => {
                         .map((meme: any) => (
                           <MemeBox
                             key={meme.id}
+                            id={meme.id}
                             type="recommend"
                             thumbnail={meme.thumbnail}
                             title={meme.title}
@@ -91,6 +93,7 @@ const Index = () => {
                   {ListData.contents.waiting.page.map((meme: any) => (
                     <MemeBox
                       key={meme.id}
+                      id={meme.id}
                       type="pending"
                       thumbnail={meme.thumbnail}
                       title={meme.title}

@@ -248,7 +248,7 @@ export const LikeButton = ({
 };
 
 export const MemeBox = ({
-  key,
+  id,
   type,
   thumbnail,
   title,
@@ -256,7 +256,7 @@ export const MemeBox = ({
   isLiked,
   likeCount,
 }: {
-  key: number;
+  id: number;
   type: 'auth' | 'recommend' | 'pending';
   thumbnail: string;
   title: string;
@@ -267,7 +267,7 @@ export const MemeBox = ({
   const navigate = useNavigate();
 
   const handleBoxClick = () => {
-    navigate(`/detail/${key}`);
+    navigate(`/detail/${id}`);
   };
   return (
     <button
@@ -405,7 +405,12 @@ export const SortButton = ({ type, isSelect, onClick }: SortButtonType) => {
 };
 
 // todo. 콘솔 warning 발생
-export const SortButtonList = ({ main }: SortButtonListType) => {
+export const SortButtonList = ({
+  main,
+  setGlobalNameSpace,
+  setYearNameSpace,
+}: SortButtonListType) => {
+  const navigate = useNavigate();
   const [firstCategory, setFirstCategory] = useState(true);
   const [secondCategory, setSecondCategory] = useState(!firstCategory);
   const [selectedOption, setSelectedOption] = useState<
@@ -416,12 +421,20 @@ export const SortButtonList = ({ main }: SortButtonListType) => {
     setFirstCategory(true);
     setSecondCategory(false);
     setSelectedOption(main ? 'recent' : 'global');
+    if (!main) {
+      setYearNameSpace(null);
+      navigate(`/memeDoc?page=1&namespace=1`);
+    }
   };
 
   const handleToggleButton2 = () => {
-    setSecondCategory(true);
     setFirstCategory(false);
+    setSecondCategory(true);
     setSelectedOption(main ? 'popular' : 'year');
+    if (!main) {
+      setGlobalNameSpace(null);
+      navigate(`/memeDoc?page=1&namespace=3`);
+    }
   };
 
   const buttonList: SortButtonType[] = [
@@ -453,7 +466,13 @@ export const SortButtonList = ({ main }: SortButtonListType) => {
           />
         ))}
       </div>
-      {selectedOption !== 'recent' && <SelectBox type={selectedOption} />}
+      {selectedOption !== 'recent' && (
+        <SelectBox
+          type={selectedOption}
+          setGlobalNameSpace={setGlobalNameSpace}
+          setYearNameSpace={setYearNameSpace}
+        />
+      )}
     </SpaceContainer>
   );
 };

@@ -44,6 +44,8 @@ export interface SelectBoxType {
 
 export interface SortButtonListType {
   main?: boolean;
+  setGlobalNameSpace?: any;
+  setYearNameSpace?: any;
 }
 
 export interface ButtonBoxType extends ContainerType {
