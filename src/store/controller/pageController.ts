@@ -7,27 +7,27 @@ export const pageController: any = createApi({
   endpoints: (builder) => ({
     searchBox: builder.query({
       query: ({ accessToken, pageData }) => {
+        let queryUrl = 'page';
+        if (pageData) {
+          queryUrl += '?';
+          Object.keys(pageData).forEach((key) => {
+            if (pageData[key]) {
+              queryUrl += `${key}=${pageData[key]}&`;
+            }
+          });
+        }
         if (accessToken) {
           return {
-            url: 'page',
+            url: queryUrl,
             method: 'get',
-            query: {
-              page: pageData.page,
-              limit: pageData.limit,
-              search: pageData.search,
-            },
             headers: { Authorization: `Bearer ${accessToken}` },
           };
         }
+        console.log(queryUrl);
+
         return {
-          url: 'page',
+          url: queryUrl,
           method: 'get',
-          query: {
-            page: pageData.page,
-            limit: pageData.limit,
-            search: pageData.search,
-            namespace: pageData.namespace,
-          },
         };
       },
     }),
@@ -39,9 +39,32 @@ export const pageController: any = createApi({
         headers: { Authorization: `Bearer ${accessToken}` },
       }),
     }),
+    getDetail: builder.query({
+      query: ({ accessToken, id }) => {
+        return {
+          url: `page/${id}/detail`,
+          method: 'get',
+          headers: { Authorization: `Bearer ${accessToken}` },
+        };
+      },
+    }),
+    like: builder.mutation({
+      query: ({ accessToken, id }) => {
+        return {
+          url: `page/like/${id}`,
+          method: 'post',
+          headers: { Authorization: `Bearer ${accessToken}` },
+        };
+      },
+    }),
   }),
 });
 
-export const { useSearchBoxQuery, usePagePostMutation } = pageController;
+export const {
+  useSearchBoxQuery,
+  usePagePostMutation,
+  useGetDetailQuery,
+  useLikeMutation,
+} = pageController;
 
 export default pageController;

@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ReactComponent as SearchIcon } from '../../assets/images/search.svg';
 import theme from '../../styles/theme';
 import likeIcon from '../../assets/images/like.svg';
@@ -218,6 +218,35 @@ export const SearchBar = ({ large }: SearchBarType) => {
   );
 };
 
+export const LikeButton = ({
+  isLiked,
+  children,
+  onClick,
+}: {
+  isLiked: boolean;
+  children: ReactNode;
+  onClick?: () => void;
+}) => {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      css={css`
+        display: flex;
+        gap: 0.4rem;
+        cursor: ${isLiked === undefined ? 'default' : 'point'};
+      `}
+    >
+      {isLiked ? (
+        <img src={likeIcon} alt="like" />
+      ) : (
+        <img src={unlikeIcon} alt="unlike" />
+      )}
+      {children}
+    </button>
+  );
+};
+
 export const MemeBox = ({
   type,
   thumbnail,
@@ -225,6 +254,7 @@ export const MemeBox = ({
   createdAt,
   isLiked,
   likeCount,
+  onClick,
 }: {
   type: 'auth' | 'recommend' | 'pending';
   thumbnail: string;
@@ -232,10 +262,15 @@ export const MemeBox = ({
   createdAt: string;
   isLiked: boolean;
   likeCount: number;
+  onClick: any;
 }) => {
   return (
-    <div
+    <button
+      type="button"
+      onClick={onClick}
       css={css`
+        display: flex;
+        flex-direction: column;
         width: 38.4rem;
         height: 39.5rem;
         border-radius: 1.6rem;
@@ -290,30 +325,15 @@ export const MemeBox = ({
       >
         {title}
       </div>
-      <div
-        css={css`
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
+      <SpaceContainer
+        style={css`
           ${theme.typography.body2}
         `}
       >
         <p>{createdAt}</p>
-        <div
-          css={css`
-            display: flex;
-            gap: 0.4rem;
-          `}
-        >
-          {isLiked ? (
-            <img src={likeIcon} alt="like" />
-          ) : (
-            <img src={unlikeIcon} alt="unlike" />
-          )}
-          <p>{likeCount}</p>
-        </div>
-      </div>
-    </div>
+        <LikeButton isLiked={isLiked}>{likeCount}</LikeButton>
+      </SpaceContainer>
+    </button>
   );
 };
 

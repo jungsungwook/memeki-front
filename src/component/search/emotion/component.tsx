@@ -29,10 +29,20 @@ export const MoreButton = ({ to }: MoreButtonType) => {
     </button>
   );
 };
-export const GoToWrite = ({ btn }: { btn?: boolean }) => {
+export const GoToWrite = ({
+  btn,
+  accessToken,
+}: {
+  btn?: boolean;
+  accessToken?: string;
+}) => {
   const navigate = useNavigate();
 
   const btnClick = () => {
+    if (!accessToken) {
+      alert('로그인해주세요');
+      return;
+    }
     navigate('/publish');
   };
   return (
@@ -110,7 +120,7 @@ export const FindInfo = ({ cnt, text }: FindInfoType) => {
           </>
         )}
       </div>
-      {cnt !== undefined && cnt < 4 && <GoToWrite />}
+      {cnt !== undefined && cnt <= 3 && <GoToWrite />}
     </>
   );
 };

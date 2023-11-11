@@ -76,11 +76,6 @@ const Index = () => {
         navigate('/');
         alert('새로운 밈이 등록되었습니다');
       }
-      console.log('response: ', response);
-      console.log('page: ', page);
-      console.log('pageText: ', pageText);
-      console.log('parentTextPage: ', parentTextPage);
-      console.log('childrenTextPage: ', childrenTextPage);
     } catch (error) {
       console.log(error);
     }

@@ -7,12 +7,17 @@ export interface ContainerType {
 }
 
 export interface StyleType {
-  style: SerializedStyles;
+  style?: SerializedStyles;
+}
+
+export interface CustomContainerType extends ContainerType, StyleType {
+  end?: boolean;
 }
 
 export interface StyleContainerType {
   children: ReactNode;
   style?: SerializedStyles;
+  primary?: boolean;
   onClick?: () => void;
 }
 

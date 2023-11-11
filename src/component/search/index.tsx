@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
   Header2,
@@ -16,6 +16,7 @@ import { ApiFetcher } from '../../util/util';
 
 const Index = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const limit = new URLSearchParams(location.search).get('limit');
   const search = new URLSearchParams(location.search).get('search');
   const { accessToken } = useSelector(selectUser);
@@ -24,17 +25,21 @@ const Index = () => {
     search,
   };
 
+  const handleBoxClick = (id: number) => {
+    navigate(`/detail/${id}`);
+  };
+
   return (
     <Inner>
       <Header />
       <Section gap="3.2">
         <SearchBar large />
-        <GoToWrite btn />
+        {accessToken && <GoToWrite btn accessToken={accessToken} />}
 
         <Section gap="1.6">
           <ApiFetcher query={useSearchBoxQuery({ accessToken, pageData })}>
             {(ListData) =>
-              ListData.statusCode === '200' && (
+              /^2.{2}$/.test(ListData.statusCode) && (
                 <>
                   <SpaceContainer>
                     <Header2>추천 문서</Header2>
@@ -58,6 +63,7 @@ const Index = () => {
                         createdAt={meme.createdAt}
                         isLiked={meme.is_liked}
                         likeCount={meme.like_count}
+                        onClick={() => handleBoxClick(meme.id)}
                       />
                     ))}
                     {ListData.contents.auth.count < 6 &&
@@ -72,6 +78,7 @@ const Index = () => {
                             createdAt={meme.createdAt}
                             isLiked={meme.is_liked}
                             likeCount={meme.like_count}
+                            onClick={() => handleBoxClick(meme.id)}
                           />
                         ))}
                   </MemeBoxList>
@@ -102,6 +109,7 @@ const Index = () => {
                       createdAt={meme.createdAt}
                       isLiked={meme.is_liked}
                       likeCount={meme.like_count}
+                      onClick={() => handleBoxClick(meme.id)}
                     />
                   ))}
                 </MemeBoxList>

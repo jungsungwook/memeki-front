@@ -17,8 +17,6 @@ export const useThumbnailLogic = () => {
   const ChangeThumbnail = async (file: File) => {
     try {
       const response = await imgUpload({ accessToken, fileData: file });
-      console.log('ChangeThumbnail res: ', response);
-      console.log('ChangeThumbnail accessToken: ', accessToken);
       setThumbnail(response.data.contents[0].url);
     } catch (error) {
       console.log('ChangeThumbnail err: ', error);
@@ -142,7 +140,6 @@ export const useParentTextPageLogic = () => {
       };
     });
     setChildrenTextPage(children);
-    console.log('childrenTextPage: ', childrenTextPage);
   };
 
   const changeChildrenTextPage = (
@@ -150,8 +147,6 @@ export const useParentTextPageLogic = () => {
     value: string,
     name: string,
   ) => {
-    console.log(name, value);
-    console.log('childrenTextPage: ', childrenTextPage);
     setChildrenTextPage((prevChildrenTextPage: any) => [
       ...prevChildrenTextPage.slice(0, index),
       { ...prevChildrenTextPage[index], [name]: value },

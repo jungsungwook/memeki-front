@@ -17,6 +17,7 @@ export const WhiteInner = ({ children }: ContainerType) => {
       css={css`
         position: relative;
         background-color: ${theme.palette.gray.white};
+        color: ${theme.palette.gray[600]};
         width: 120rem;
         margin: 0 auto;
         display: flex;
