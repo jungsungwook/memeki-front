@@ -83,7 +83,9 @@ export const InputBox = ({
               하위 단락 추가
             </ButtonBox>
           )}
-          <p>목차 번호: {parentOrder ? `${parentOrder}.${order}` : order}</p>
+          <p>
+            <b>목차 번호: {parentOrder ? `${parentOrder}.${order}` : order}</b>
+          </p>
           {!(title || subTitle) && (
             <RightRowAlign>
               <button type="button" onClick={onClickRemove}>

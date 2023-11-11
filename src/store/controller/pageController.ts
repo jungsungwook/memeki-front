@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const pageController: any = createApi({
-  reducerPath: 'imageApi',
+  reducerPath: 'pageApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://api.memeki.kr/' }),
 
   endpoints: (builder) => ({
@@ -31,43 +31,17 @@ export const pageController: any = createApi({
         };
       },
     }),
-    // SignIn: builder.mutation({
-    //   query: (formData) => ({
-    //     url: 'signin',
-    //     method: 'post',
-    //     body: formData,
-    //     // axios: {
-    //     //   withCredentials: true,
-    //     // },
-    //   }),
-    // }),
-    // FindId: builder.mutation({
-    //   query: (data) => ({
-    //     url: 'find-id',
-    //     method: 'post',
-    //     body: data,
-    //   }),
-    // }),
-    // FindPassword: builder.mutation({
-    //   query: (formData) => ({
-    //     url: 'find-password',
-    //     method: 'post',
-    //     body: formData,
-    //   }),
-    // }),
-    // SignOut: builder.query({
-    //   query: ({ accessToken }) => ({
-    //     url: 'signout',
-    //     method: 'get',
-    //     headers: { Authorization: accessToken },
-    //     // axios: {
-    //     //   withCredentials: true,
-    //     // },
-    //   }),
-    // }),
+    pagePost: builder.mutation({
+      query: ({ accessToken, page, pageText }) => ({
+        url: 'page',
+        method: 'post',
+        body: { page, pageText },
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }),
+    }),
   }),
 });
 
-export const { useSearchBoxQuery } = pageController;
+export const { useSearchBoxQuery, usePagePostMutation } = pageController;
 
 export default pageController;

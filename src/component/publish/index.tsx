@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Section } from '../emotion/GlobalStyle';
 import { Header } from '../emotion/Header';
@@ -13,8 +14,10 @@ import { EditorComponent } from './emotion/TextEditor';
 import '../../styles/quill.css';
 import { useParentTextPageLogic, useThumbnailLogic } from './hook';
 import { selectUser } from '../../store/slice/userSlice';
+import { usePagePostMutation } from '../../store/controller/pageController';
 
 const Index = () => {
+  const navigate = useNavigate();
   const {
     handleFileSelect,
     handleDrop,
@@ -36,6 +39,7 @@ const Index = () => {
   const [globalNameSpace, setGlobalNameSpace] = useState(0);
   const [yearNameSpace, setYearNameSpace] = useState(0);
   const { accessToken } = useSelector(selectUser);
+  const [pagePost] = usePagePostMutation();
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -44,21 +48,42 @@ const Index = () => {
     }
   };
 
-  const onSubmit = () => {
-    const pageText = [...parentTextPage, ...childrenTextPage];
-    const sendData = {
-      page: {
+  // Todo. 빈 타이틀, 빈 내용, 걸러서 post보내기
+  const onSubmit = async () => {
+    try {
+      if (globalNameSpace === 0 || yearNameSpace === 0) {
+        alert('모든 분류를 선택해주세요');
+        return;
+      }
+      if (title === '') {
+        alert('제목을 입력해주세요');
+        return;
+      }
+      if (parentTextPage[0].title === '' || parentTextPage[0].content === '') {
+        alert('내용을 입력해주세요');
+        return;
+      }
+
+      const pageText = [...parentTextPage, ...childrenTextPage];
+      const page = {
         namespace: [globalNameSpace, yearNameSpace],
-        thumbnail: { thumbnail },
-        title: { title },
+        thumbnail,
+        title,
         is_redirect: 0,
-      },
-      pageText: { pageText },
-    };
-    console.log('sendData: ', sendData);
-    console.log('pageText: ', pageText);
-    console.log('parentTextPage: ', parentTextPage);
-    console.log('childrenTextPage: ', childrenTextPage);
+      };
+      const response = await pagePost({ accessToken, page, pageText });
+      if (/^2.{2}$/.test(response.data.statusCode)) {
+        navigate('/');
+        alert('새로운 밈이 등록되었습니다');
+      }
+      console.log('response: ', response);
+      console.log('page: ', page);
+      console.log('pageText: ', pageText);
+      console.log('parentTextPage: ', parentTextPage);
+      console.log('childrenTextPage: ', childrenTextPage);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
