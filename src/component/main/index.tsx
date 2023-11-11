@@ -1,5 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
+import { useSelector } from 'react-redux';
 import theme from '../../styles/theme';
 import {
   MemeBox,
@@ -9,8 +10,12 @@ import {
 } from '../emotion/component';
 import { Header2, Inner, Section, Title } from '../emotion/GlobalStyle';
 import { Header } from '../emotion/Header';
+import { ApiFetcher } from '../../util/util';
+import { useSearchBoxQuery } from '../../store/controller/pageController';
+import { selectUser } from '../../store/slice/userSlice';
 
-const index = () => {
+const Index = () => {
+  const { accessToken } = useSelector(selectUser);
   return (
     <Inner>
       <Header />
@@ -36,18 +41,37 @@ const index = () => {
       <SearchBar large />
       <Section gap="3.2">
         <SortButtonList main />
-        {/* <MemeBoxList>
-          <MemeBox />
-          <MemeBox />
-          <MemeBox />
-          <MemeBox />
-          <MemeBox />
-          <MemeBox />
-          <MemeBox />
-        </MemeBoxList> */}
+        <ApiFetcher query={useSearchBoxQuery({ accessToken })}>
+          {(ListData) => (
+            <MemeBoxList>
+              {ListData.contents.auth.page.map((meme: any) => (
+                <MemeBox
+                  key={meme.id}
+                  type="auth"
+                  thumbnail={meme.thumbnail}
+                  title={meme.title}
+                  createdAt={meme.createdAt}
+                  isLiked={meme.is_liked}
+                  likeCount={meme.like_count}
+                />
+              ))}
+              {ListData.contents.recommend.page.map((meme: any) => (
+                <MemeBox
+                  key={meme.id}
+                  type="auth"
+                  thumbnail={meme.thumbnail}
+                  title={meme.title}
+                  createdAt={meme.createdAt}
+                  isLiked={meme.is_liked}
+                  likeCount={meme.like_count}
+                />
+              ))}
+            </MemeBoxList>
+          )}
+        </ApiFetcher>
       </Section>
     </Inner>
   );
 };
 
-export default index;
+export default Index;

@@ -248,26 +248,31 @@ export const LikeButton = ({
 };
 
 export const MemeBox = ({
+  key,
   type,
   thumbnail,
   title,
   createdAt,
   isLiked,
   likeCount,
-  onClick,
 }: {
+  key: number;
   type: 'auth' | 'recommend' | 'pending';
   thumbnail: string;
   title: string;
   createdAt: string;
   isLiked: boolean;
   likeCount: number;
-  onClick: any;
 }) => {
+  const navigate = useNavigate();
+
+  const handleBoxClick = () => {
+    navigate(`/detail/${key}`);
+  };
   return (
     <button
       type="button"
-      onClick={onClick}
+      onClick={handleBoxClick}
       css={css`
         display: flex;
         flex-direction: column;

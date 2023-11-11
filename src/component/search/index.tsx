@@ -16,17 +16,12 @@ import { ApiFetcher } from '../../util/util';
 
 const Index = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const limit = new URLSearchParams(location.search).get('limit');
   const search = new URLSearchParams(location.search).get('search');
   const { accessToken } = useSelector(selectUser);
   const pageData = {
     limit,
     search,
-  };
-
-  const handleBoxClick = (id: number) => {
-    navigate(`/detail/${id}`);
   };
 
   return (
@@ -63,7 +58,6 @@ const Index = () => {
                         createdAt={meme.createdAt}
                         isLiked={meme.is_liked}
                         likeCount={meme.like_count}
-                        onClick={() => handleBoxClick(meme.id)}
                       />
                     ))}
                     {ListData.contents.auth.count < 6 &&
@@ -78,7 +72,6 @@ const Index = () => {
                             createdAt={meme.createdAt}
                             isLiked={meme.is_liked}
                             likeCount={meme.like_count}
-                            onClick={() => handleBoxClick(meme.id)}
                           />
                         ))}
                   </MemeBoxList>
@@ -109,7 +102,6 @@ const Index = () => {
                       createdAt={meme.createdAt}
                       isLiked={meme.is_liked}
                       likeCount={meme.like_count}
-                      onClick={() => handleBoxClick(meme.id)}
                     />
                   ))}
                 </MemeBoxList>
