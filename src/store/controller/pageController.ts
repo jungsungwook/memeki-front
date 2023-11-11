@@ -6,28 +6,11 @@ export const pageController: any = createApi({
 
   endpoints: (builder) => ({
     searchBox: builder.query({
-      query: ({ accessToken, pageData }) => {
-        let queryUrl = 'page';
-        if (pageData) {
-          queryUrl += '?';
-          Object.keys(pageData).forEach((key) => {
-            if (pageData[key]) {
-              queryUrl += `${key}=${pageData[key]}&`;
-            }
-          });
-        }
-        if (accessToken) {
-          return {
-            url: queryUrl,
-            method: 'get',
-            headers: { Authorization: `Bearer ${accessToken}` },
-          };
-        }
-        console.log(queryUrl);
-
+      query: ({ accessToken, queryUrl }) => {
         return {
           url: queryUrl,
           method: 'get',
+          headers: { Authorization: `Bearer ${accessToken}` },
         };
       },
     }),

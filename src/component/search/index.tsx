@@ -16,13 +16,8 @@ import { ApiFetcher } from '../../util/util';
 
 const Index = () => {
   const location = useLocation();
-  const limit = new URLSearchParams(location.search).get('limit');
-  const search = new URLSearchParams(location.search).get('search');
+  const queryUrl = `page${location.search}`;
   const { accessToken } = useSelector(selectUser);
-  const pageData = {
-    limit,
-    search,
-  };
 
   return (
     <Inner>
@@ -32,7 +27,7 @@ const Index = () => {
         {accessToken && <GoToWrite btn accessToken={accessToken} />}
 
         <Section gap="1.6">
-          <ApiFetcher query={useSearchBoxQuery({ accessToken, pageData })}>
+          <ApiFetcher query={useSearchBoxQuery({ accessToken, queryUrl })}>
             {(ListData) =>
               /^2.{2}$/.test(ListData.statusCode) && (
                 <>
@@ -82,7 +77,7 @@ const Index = () => {
         </Section>
 
         <Section gap="1.6">
-          <ApiFetcher query={useSearchBoxQuery({ accessToken, pageData })}>
+          <ApiFetcher query={useSearchBoxQuery({ accessToken, queryUrl })}>
             {(ListData) => (
               <>
                 <SpaceContainer>
