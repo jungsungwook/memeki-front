@@ -17,6 +17,7 @@ export const WhiteInner = ({ children }: ContainerType) => {
       css={css`
         position: relative;
         background-color: ${theme.palette.gray.white};
+        color: ${theme.palette.gray[600]};
         width: 120rem;
         margin: 0 auto;
         display: flex;
@@ -54,13 +55,13 @@ export const InputBox = ({
   value,
   name,
   onChange,
-  field,
-  onClick,
+  onClickRemove,
   order,
-  parentText,
+  parentOrder,
+  parentUid,
+  append,
+  subTitle,
 }: InputBoxType) => {
-  const thisOrder = order || null;
-  const thisparentText = parentText || null;
   return (
     <div
       css={css`
@@ -78,13 +79,17 @@ export const InputBox = ({
             gap: 2rem;
           `}
         >
-          <ButtonBox type="default" gray>
-            하위 단락 추가
-          </ButtonBox>
-          <p>목차 번호: {parentText ? `${order}.${parentText}` : order}</p>
-          {!(title || name === 'firstSubtitle') && (
+          {append && (
+            <ButtonBox type="default" gray onClick={append}>
+              하위 단락 추가
+            </ButtonBox>
+          )}
+          <p>
+            <b>목차 번호: {parentOrder ? `${parentOrder}.${order}` : order}</b>
+          </p>
+          {!(title || subTitle) && (
             <RightRowAlign>
-              <button type="button" onClick={onClick}>
+              <button type="button" onClick={onClickRemove}>
                 ✖
               </button>
             </RightRowAlign>
@@ -115,8 +120,6 @@ export const InputBox = ({
             background-color: transparent;
             width: 100%;
           `}
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...field}
         />
       </div>
     </div>

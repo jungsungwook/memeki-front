@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import React from 'react';
 import theme from '../../styles/theme';
 import {
-  ContainerType,
+  CustomContainerType,
   SectionType,
   StyleContainerType,
 } from '../../types/globalType';
@@ -30,9 +30,10 @@ export const Inner = ({ children, style }: StyleContainerType) => (
   </section>
 );
 
-export const Title = ({ children, style }: StyleContainerType) => (
+export const Title = ({ children, style, primary }: StyleContainerType) => (
   <div
     css={css`
+      color: ${primary ? theme.palette.primary[500] : null};
       ${theme.typography.title}
       ${style}
     `}
@@ -41,9 +42,10 @@ export const Title = ({ children, style }: StyleContainerType) => (
   </div>
 );
 
-export const Header1 = ({ children, style }: StyleContainerType) => (
+export const Header1 = ({ children, style, primary }: StyleContainerType) => (
   <div
     css={css`
+      color: ${primary ? theme.palette.primary[500] : null};
       ${theme.typography.header1}
       ${style}
     `}
@@ -52,9 +54,10 @@ export const Header1 = ({ children, style }: StyleContainerType) => (
   </div>
 );
 
-export const Header2 = ({ children, style }: StyleContainerType) => (
+export const Header2 = ({ children, style, primary }: StyleContainerType) => (
   <div
     css={css`
+      color: ${primary ? theme.palette.primary[500] : null};
       ${theme.typography.header2}
       ${style}
     `}
@@ -63,9 +66,10 @@ export const Header2 = ({ children, style }: StyleContainerType) => (
   </div>
 );
 
-export const Body1 = ({ children, style }: StyleContainerType) => (
+export const Body1 = ({ children, style, primary }: StyleContainerType) => (
   <div
     css={css`
+      color: ${primary ? theme.palette.primary[500] : null};
       ${theme.typography.body1}
       ${style}
     `}
@@ -74,9 +78,10 @@ export const Body1 = ({ children, style }: StyleContainerType) => (
   </div>
 );
 
-export const Body1Bold = ({ children, style }: StyleContainerType) => (
+export const Body1Bold = ({ children, style, primary }: StyleContainerType) => (
   <div
     css={css`
+      color: ${primary ? theme.palette.primary[500] : null};
       ${theme.typography.body1Bold}
       ${style}
     `}
@@ -85,9 +90,10 @@ export const Body1Bold = ({ children, style }: StyleContainerType) => (
   </div>
 );
 
-export const Body2 = ({ children, style }: StyleContainerType) => (
+export const Body2 = ({ children, style, primary }: StyleContainerType) => (
   <div
     css={css`
+      color: ${primary ? theme.palette.primary[500] : null};
       ${theme.typography.body2}
       ${style}
     `}
@@ -96,9 +102,10 @@ export const Body2 = ({ children, style }: StyleContainerType) => (
   </div>
 );
 
-export const Body2Bold = ({ children, style }: StyleContainerType) => (
+export const Body2Bold = ({ children, style, primary }: StyleContainerType) => (
   <div
     css={css`
+      color: ${primary ? theme.palette.primary[500] : null};
       ${theme.typography.body2Bold}
       ${style}
     `}
@@ -107,9 +114,10 @@ export const Body2Bold = ({ children, style }: StyleContainerType) => (
   </div>
 );
 
-export const Body3 = ({ children, style }: StyleContainerType) => (
+export const Body3 = ({ children, style, primary }: StyleContainerType) => (
   <div
     css={css`
+      color: ${primary ? theme.palette.primary[500] : null};
       ${theme.typography.body3}
       ${style}
     `}
@@ -118,9 +126,10 @@ export const Body3 = ({ children, style }: StyleContainerType) => (
   </div>
 );
 
-export const Body3Bold = ({ children, style }: StyleContainerType) => (
+export const Body3Bold = ({ children, style, primary }: StyleContainerType) => (
   <div
     css={css`
+      color: ${primary ? theme.palette.primary[500] : null};
       ${theme.typography.body3Bold}
       ${style}
     `}
@@ -143,14 +152,19 @@ export const Section = ({ children, gap }: SectionType) => (
 );
 
 // 가로 사이의 간격을 멀게 하는 컴포넌트
-export const SpaceContainer = ({ children }: ContainerType) => {
+export const SpaceContainer = ({
+  children,
+  end,
+  style,
+}: CustomContainerType) => {
   return (
     <div
       css={css`
         width: 100%;
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: ${end ? 'end' : 'center'};
+        ${style}
       `}
     >
       {children}

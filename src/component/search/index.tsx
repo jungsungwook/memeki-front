@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
   Header2,
@@ -16,25 +16,20 @@ import { ApiFetcher } from '../../util/util';
 
 const Index = () => {
   const location = useLocation();
-  const limit = new URLSearchParams(location.search).get('limit');
-  const search = new URLSearchParams(location.search).get('search');
+  const queryUrl = `page${location.search}`;
   const { accessToken } = useSelector(selectUser);
-  const pageData = {
-    limit,
-    search,
-  };
 
   return (
     <Inner>
       <Header />
       <Section gap="3.2">
         <SearchBar large />
-        <GoToWrite btn />
+        {accessToken && <GoToWrite btn accessToken={accessToken} />}
 
         <Section gap="1.6">
-          <ApiFetcher query={useSearchBoxQuery({ accessToken, pageData })}>
+          <ApiFetcher query={useSearchBoxQuery({ accessToken, queryUrl })}>
             {(ListData) =>
-              ListData.statusCode === '200' && (
+              /^2.{2}$/.test(ListData.statusCode) && (
                 <>
                   <SpaceContainer>
                     <Header2>추천 문서</Header2>
@@ -52,6 +47,7 @@ const Index = () => {
                     {ListData.contents.auth.page.map((meme: any) => (
                       <MemeBox
                         key={meme.id}
+                        id={meme.id}
                         type="auth"
                         thumbnail={meme.thumbnail}
                         title={meme.title}
@@ -66,6 +62,7 @@ const Index = () => {
                         .map((meme: any) => (
                           <MemeBox
                             key={meme.id}
+                            id={meme.id}
                             type="recommend"
                             thumbnail={meme.thumbnail}
                             title={meme.title}
@@ -82,7 +79,7 @@ const Index = () => {
         </Section>
 
         <Section gap="1.6">
-          <ApiFetcher query={useSearchBoxQuery({ accessToken, pageData })}>
+          <ApiFetcher query={useSearchBoxQuery({ accessToken, queryUrl })}>
             {(ListData) => (
               <>
                 <SpaceContainer>
@@ -96,6 +93,7 @@ const Index = () => {
                   {ListData.contents.waiting.page.map((meme: any) => (
                     <MemeBox
                       key={meme.id}
+                      id={meme.id}
                       type="pending"
                       thumbnail={meme.thumbnail}
                       title={meme.title}

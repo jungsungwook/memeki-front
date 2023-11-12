@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ReactComponent as SearchIcon } from '../../assets/images/search.svg';
 import theme from '../../styles/theme';
 import likeIcon from '../../assets/images/like.svg';
@@ -218,7 +218,37 @@ export const SearchBar = ({ large }: SearchBarType) => {
   );
 };
 
+export const LikeButton = ({
+  isLiked,
+  children,
+  onClick,
+}: {
+  isLiked: boolean;
+  children: ReactNode;
+  onClick?: () => void;
+}) => {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      css={css`
+        display: flex;
+        gap: 0.4rem;
+        cursor: ${isLiked === undefined ? 'default' : 'point'};
+      `}
+    >
+      {isLiked ? (
+        <img src={likeIcon} alt="like" />
+      ) : (
+        <img src={unlikeIcon} alt="unlike" />
+      )}
+      {children}
+    </button>
+  );
+};
+
 export const MemeBox = ({
+  id,
   type,
   thumbnail,
   title,
@@ -226,6 +256,7 @@ export const MemeBox = ({
   isLiked,
   likeCount,
 }: {
+  id: number;
   type: 'auth' | 'recommend' | 'pending';
   thumbnail: string;
   title: string;
@@ -233,9 +264,18 @@ export const MemeBox = ({
   isLiked: boolean;
   likeCount: number;
 }) => {
+  const navigate = useNavigate();
+
+  const handleBoxClick = () => {
+    navigate(`/detail/${id}`);
+  };
   return (
-    <div
+    <button
+      type="button"
+      onClick={handleBoxClick}
       css={css`
+        display: flex;
+        flex-direction: column;
         width: 38.4rem;
         height: 39.5rem;
         border-radius: 1.6rem;
@@ -270,7 +310,17 @@ export const MemeBox = ({
           align-items: center;
         `}
       >
-        <img src={thumbnail} alt="thumbnail" width={100} />
+        <img
+          src={thumbnail}
+          alt=""
+          css={css`
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+          `}
+        />
       </div>
       <div
         css={css`
@@ -280,30 +330,15 @@ export const MemeBox = ({
       >
         {title}
       </div>
-      <div
-        css={css`
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
+      <SpaceContainer
+        style={css`
           ${theme.typography.body2}
         `}
       >
         <p>{createdAt}</p>
-        <div
-          css={css`
-            display: flex;
-            gap: 0.4rem;
-          `}
-        >
-          {isLiked ? (
-            <img src={likeIcon} alt="like" />
-          ) : (
-            <img src={unlikeIcon} alt="unlike" />
-          )}
-          <p>{likeCount}</p>
-        </div>
-      </div>
-    </div>
+        <LikeButton isLiked={isLiked}>{likeCount}</LikeButton>
+      </SpaceContainer>
+    </button>
   );
 };
 
@@ -370,7 +405,12 @@ export const SortButton = ({ type, isSelect, onClick }: SortButtonType) => {
 };
 
 // todo. 콘솔 warning 발생
-export const SortButtonList = ({ main }: SortButtonListType) => {
+export const SortButtonList = ({
+  main,
+  setGlobalNameSpace,
+  setYearNameSpace,
+}: SortButtonListType) => {
+  const navigate = useNavigate();
   const [firstCategory, setFirstCategory] = useState(true);
   const [secondCategory, setSecondCategory] = useState(!firstCategory);
   const [selectedOption, setSelectedOption] = useState<
@@ -381,12 +421,20 @@ export const SortButtonList = ({ main }: SortButtonListType) => {
     setFirstCategory(true);
     setSecondCategory(false);
     setSelectedOption(main ? 'recent' : 'global');
+    if (!main) {
+      setYearNameSpace(null);
+      navigate(`/memeDoc?page=1&namespace=1`);
+    }
   };
 
   const handleToggleButton2 = () => {
-    setSecondCategory(true);
     setFirstCategory(false);
+    setSecondCategory(true);
     setSelectedOption(main ? 'popular' : 'year');
+    if (!main) {
+      setGlobalNameSpace(null);
+      navigate(`/memeDoc?page=1&namespace=3`);
+    }
   };
 
   const buttonList: SortButtonType[] = [
@@ -418,7 +466,13 @@ export const SortButtonList = ({ main }: SortButtonListType) => {
           />
         ))}
       </div>
-      {selectedOption !== 'recent' && <SelectBox type={selectedOption} />}
+      {selectedOption !== 'recent' && (
+        <SelectBox
+          type={selectedOption}
+          setGlobalNameSpace={setGlobalNameSpace}
+          setYearNameSpace={setYearNameSpace}
+        />
+      )}
     </SpaceContainer>
   );
 };

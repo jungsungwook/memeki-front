@@ -1,73 +1,53 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const pageController: any = createApi({
-  reducerPath: 'imageApi',
+  reducerPath: 'pageApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://api.memeki.kr/' }),
 
   endpoints: (builder) => ({
     searchBox: builder.query({
-      query: ({ accessToken, pageData }) => {
-        if (accessToken) {
-          return {
-            url: 'page',
-            method: 'get',
-            query: {
-              page: pageData.page,
-              limit: pageData.limit,
-              search: pageData.search,
-            },
-            headers: { Authorization: `Bearer ${accessToken}` },
-          };
-        }
+      query: ({ accessToken, queryUrl }) => {
         return {
-          url: 'page',
+          url: queryUrl,
           method: 'get',
-          query: {
-            page: pageData.page,
-            limit: pageData.limit,
-            search: pageData.search,
-            namespace: pageData.namespace,
-          },
+          headers: { Authorization: `Bearer ${accessToken}` },
         };
       },
     }),
-    // SignIn: builder.mutation({
-    //   query: (formData) => ({
-    //     url: 'signin',
-    //     method: 'post',
-    //     body: formData,
-    //     // axios: {
-    //     //   withCredentials: true,
-    //     // },
-    //   }),
-    // }),
-    // FindId: builder.mutation({
-    //   query: (data) => ({
-    //     url: 'find-id',
-    //     method: 'post',
-    //     body: data,
-    //   }),
-    // }),
-    // FindPassword: builder.mutation({
-    //   query: (formData) => ({
-    //     url: 'find-password',
-    //     method: 'post',
-    //     body: formData,
-    //   }),
-    // }),
-    // SignOut: builder.query({
-    //   query: ({ accessToken }) => ({
-    //     url: 'signout',
-    //     method: 'get',
-    //     headers: { Authorization: accessToken },
-    //     // axios: {
-    //     //   withCredentials: true,
-    //     // },
-    //   }),
-    // }),
+    pagePost: builder.mutation({
+      query: ({ accessToken, page, pageText }) => ({
+        url: 'page',
+        method: 'post',
+        body: { page, pageText },
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }),
+    }),
+    getDetail: builder.query({
+      query: ({ accessToken, id }) => {
+        return {
+          url: `page/${id}/detail`,
+          method: 'get',
+          headers: { Authorization: `Bearer ${accessToken}` },
+        };
+      },
+    }),
+    like: builder.mutation({
+      query: ({ accessToken, id }) => {
+        return {
+          url: `page/like/${id}`,
+          method: 'post',
+          headers: { Authorization: `Bearer ${accessToken}` },
+        };
+      },
+    }),
   }),
 });
 
-export const { useSearchBoxQuery } = pageController;
+export const {
+  useSearchBoxQuery,
+  usePagePostMutation,
+  useGetDetailQuery,
+  useLikeMutation,
+} = pageController;
 
 export default pageController;
