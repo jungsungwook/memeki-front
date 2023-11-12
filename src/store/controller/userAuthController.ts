@@ -41,9 +41,6 @@ export const userAuthController: any = createApi({
         url: 'signout',
         method: 'get',
         headers: { Authorization: accessToken },
-        // axios: {
-        //   withCredentials: true,
-        // },
       }),
     }),
   }),

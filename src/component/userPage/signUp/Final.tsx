@@ -12,6 +12,7 @@ import { ButtonBox, Line } from '../../emotion/component';
 import { Header1, Section } from '../../emotion/GlobalStyle';
 import { useSignUpMutation } from '../../../store/controller/userAuthController';
 
+// Todo. 1) 닉네임 중복체크 api연결 다시하기
 // Todo. 2) 400 err 브라우저에 로그 안 남기기(공통 모듈로 만들어서 넣기)
 // 2) https://chat.openai.com/share/9f1a0bba-af5c-4c1a-8387-9855f3e9a3be
 // 2) https://axios-http.com/kr/docs/handling_errors
@@ -30,6 +31,7 @@ const Final = () => {
   const [isIdChecked, setIsIdChecked] = useState('');
   const [isNameChecked, setIsNameChecked] = useState('');
   const [isEmailChecked, setIsEmailChecked] = useState('');
+  const stateCodeRegex = /^2.{2}$/;
 
   const [singUpData] = useSignUpMutation();
 
@@ -42,12 +44,12 @@ const Final = () => {
       const response = await axios.get(
         `https://api.memeki.kr/auth/id-check?id=${getValues('customId')}`,
       );
-      if (response.data.statusCode === '200') {
+      if (stateCodeRegex.test(response.data.statusCode)) {
         alert(response.data.contents.message);
         setIsIdChecked(response.data.contents.id);
       }
     } catch (error: any) {
-      if (error.response.data.statusCode === 401) {
+      if (error.response.data.statusCode === '401') {
         alert(error.response.data.message);
         setIsNameChecked('');
       } else {
@@ -67,12 +69,12 @@ const Final = () => {
         `https://api.memeki.kr/auth/name-check?name=${getValues('name')}`,
       );
 
-      if (response.data.statusCode === '200') {
+      if (stateCodeRegex.test(response.data.statusCode)) {
         alert(response.data.contents.message);
         setIsNameChecked(response.data.contents.name);
       }
     } catch (error: any) {
-      if (error.response.data.statusCode === 401) {
+      if (error.response.data.statusCode === '401') {
         alert(error.response.data.message);
         setIsNameChecked('');
       } else {
@@ -92,12 +94,12 @@ const Final = () => {
         `https://api.memeki.kr/auth/email-check?email=${getValues('email')}`,
       );
 
-      if (response.data.statusCode === '200') {
+      if (stateCodeRegex.test(response.data.statusCode)) {
         alert(response.data.contents.message);
         setIsEmailChecked(response.data.contents.email);
       }
     } catch (error: any) {
-      if (error.response.data.statusCode === 401) {
+      if (error.response.data.statusCode === '401') {
         alert(error.response.data.message);
         setIsEmailChecked('');
       } else {
@@ -129,7 +131,8 @@ const Final = () => {
       };
 
       const response = await singUpData(formData);
-      if (response.data.statusCode === '200') navigate('/login/signUp/success');
+      if (stateCodeRegex.test(response.data.statusCode))
+        navigate('/login/signUp/success');
     } catch (error) {
       console.log(error);
     }

@@ -34,7 +34,7 @@ function App() {
         <Route path="/search/more" element={<MoreYellowBox />} />
         <Route path="/search/morePending" element={<MoreGrayBox />} />
         <Route path="/myPage" element={<MyPage />} />
-        <Route path="/detail/:pageId" element={<Detail />} />
+        <Route path="/detail/:id" element={<Detail />} />
         <Route path="/publish" element={<Publish />} />
         <Route path="/detail/:pageId/:pageTextId" element={<PartEdit />} />
         <Route path="/login/signUp" element={<SignUp />} />

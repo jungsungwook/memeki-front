@@ -14,7 +14,11 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false, // 직렬화 검사 비활성화
-    }).concat(userAuthController.middleware, imageController.middleware),
+    }).concat(
+      userAuthController.middleware,
+      imageController.middleware,
+      pageController.middleware,
+    ),
   devTools: process.env.NODE_ENV !== 'production', // 개발 모드에서만 DevTools 활성화
 });
 
