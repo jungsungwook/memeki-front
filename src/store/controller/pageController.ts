@@ -40,6 +40,24 @@ export const pageController: any = createApi({
         };
       },
     }),
+    getNewPage: builder.query({
+      query: ({ accessToken, queryUrl }) => {
+        return {
+          url: `page/new?${queryUrl}`,
+          method: 'get',
+          headers: { Authorization: `Bearer ${accessToken}` },
+        };
+      },
+    }),
+    getPopularPage: builder.query({
+      query: ({ accessToken, type, queryUrl }) => {
+        return {
+          url: `page/popular/${type}?${queryUrl}`,
+          method: 'get',
+          headers: { Authorization: `Bearer ${accessToken}` },
+        };
+      },
+    }),
   }),
 });
 
@@ -48,6 +66,8 @@ export const {
   usePagePostMutation,
   useGetDetailQuery,
   useLikeMutation,
+  useGetNewPageQuery,
+  useGetPopularPageQuery,
 } = pageController;
 
 export default pageController;
