@@ -9,10 +9,11 @@ import { FindInfoType, MoreButtonType } from '../../../types/globalType';
 import penIcon from '../../../assets/images/pen.svg';
 import { Body1Bold } from '../../emotion/GlobalStyle';
 
-export const MoreButton = ({ to }: MoreButtonType) => {
+export const MoreButton = ({ to, keyword }: MoreButtonType) => {
   const navigate = useNavigate();
   const MovePage = () => {
-    navigate(to);
+    const url = keyword ? `${to}?keyword=${keyword}` : to;
+    navigate(url);
   };
   return (
     <button
