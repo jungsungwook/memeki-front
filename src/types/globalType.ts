@@ -95,6 +95,7 @@ export interface FindInfoType {
 
 export interface MoreButtonType {
   to: string;
+  keyword?: string;
 }
 
 export interface InputBoxType {
