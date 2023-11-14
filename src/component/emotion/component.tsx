@@ -62,6 +62,8 @@ export const SelectBox = ({
       setGlobalNameSpace(option.namespace);
     } else if (type === 'year') {
       setYearNameSpace(option.namespace);
+    } else if (type === 'popular') {
+      setYearNameSpace(option.value);
     }
     // onClick(optionName);
     setIsOpen(false);
@@ -409,6 +411,7 @@ export const SortButtonList = ({
   main,
   setGlobalNameSpace,
   setYearNameSpace,
+  toggle,
 }: SortButtonListType) => {
   const navigate = useNavigate();
   const [firstCategory, setFirstCategory] = useState(true);
@@ -420,6 +423,7 @@ export const SortButtonList = ({
   const handleToggleButton1 = () => {
     setFirstCategory(true);
     setSecondCategory(false);
+    toggle('recent');
     setSelectedOption(main ? 'recent' : 'global');
     if (!main) {
       setYearNameSpace(null);
@@ -430,6 +434,7 @@ export const SortButtonList = ({
   const handleToggleButton2 = () => {
     setFirstCategory(false);
     setSecondCategory(true);
+    toggle('popular');
     setSelectedOption(main ? 'popular' : 'year');
     if (!main) {
       setGlobalNameSpace(null);

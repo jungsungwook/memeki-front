@@ -46,6 +46,7 @@ export interface SortButtonListType {
   main?: boolean;
   setGlobalNameSpace?: any;
   setYearNameSpace?: any;
+  toggle?: any;
 }
 
 export interface ButtonBoxType extends ContainerType {
