@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { css } from '@emotion/react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
@@ -12,13 +12,26 @@ import {
 import { Header2, Inner, Section, Title } from '../emotion/GlobalStyle';
 import { Header } from '../emotion/Header';
 import { ApiFetcher } from '../../util/util';
-import { useSearchBoxQuery } from '../../store/controller/pageController';
+import { useGetTypePageQuery } from '../../store/controller/pageController';
 import { selectUser } from '../../store/slice/userSlice';
 
 const Index = () => {
   const { accessToken } = useSelector(selectUser);
   const location = useLocation();
-  const queryUrl = `page${location.search}`;
+  const [toggle, setToggle] = React.useState('recent');
+  const [category, setCategory] = React.useState('week');
+  const queryUrl = `limit=10&page=1`;
+
+  const handleToggle = (data: any) => {
+    setToggle(data);
+  };
+
+  const handleCategory = (data: any) => {
+    setCategory(data);
+  };
+
+  useEffect(() => {}, [toggle, category]);
+
   return (
     <Inner>
       <Header />
@@ -43,27 +56,26 @@ const Index = () => {
       </Section>
       <SearchBar large />
       <Section gap="3.2">
-        <SortButtonList main />
-        <ApiFetcher query={useSearchBoxQuery({ accessToken, queryUrl })}>
+        <SortButtonList
+          main
+          toggle={handleToggle}
+          setYearNameSpace={handleCategory}
+        />
+        <ApiFetcher
+          query={useGetTypePageQuery({
+            accessToken,
+            queryUrl:
+              toggle === 'recent' ? queryUrl : `${queryUrl}&type=${category}`,
+            type: toggle,
+          })}
+        >
           {(ListData) => (
             <MemeBoxList>
-              {ListData.contents.auth.page.map((meme: any) => (
+              {ListData.contents.page.map((meme: any) => (
                 <MemeBox
                   key={meme.id}
                   id={meme.id}
                   type="auth"
-                  thumbnail={meme.thumbnail}
-                  title={meme.title}
-                  createdAt={meme.createdAt}
-                  isLiked={meme.is_liked}
-                  likeCount={meme.like_count}
-                />
-              ))}
-              {ListData.contents.recommend.page.map((meme: any) => (
-                <MemeBox
-                  key={meme.id}
-                  id={meme.id}
-                  type="recommend"
                   thumbnail={meme.thumbnail}
                   title={meme.title}
                   createdAt={meme.createdAt}
