@@ -40,6 +40,15 @@ export const pageController: any = createApi({
         };
       },
     }),
+    getTypePage: builder.query({
+      query: ({ accessToken, queryUrl, type }) => {
+        return {
+          url: `page/${type}?${queryUrl}`,
+          method: 'get',
+          headers: { Authorization: `Bearer ${accessToken}` },
+        };
+      },
+    }),
   }),
 });
 
@@ -48,6 +57,7 @@ export const {
   usePagePostMutation,
   useGetDetailQuery,
   useLikeMutation,
+  useGetTypePageQuery,
 } = pageController;
 
 export default pageController;

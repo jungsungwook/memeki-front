@@ -62,6 +62,8 @@ export const SelectBox = ({
       setGlobalNameSpace(option.namespace);
     } else if (type === 'year') {
       setYearNameSpace(option.namespace);
+    } else if (type === 'popular') {
+      setYearNameSpace(option.value);
     }
     // onClick(optionName);
     setIsOpen(false);
@@ -409,6 +411,7 @@ export const SortButtonList = ({
   main,
   setGlobalNameSpace,
   setYearNameSpace,
+  toggle,
 }: SortButtonListType) => {
   const navigate = useNavigate();
   const [firstCategory, setFirstCategory] = useState(true);
@@ -420,9 +423,10 @@ export const SortButtonList = ({
   const handleToggleButton1 = () => {
     setFirstCategory(true);
     setSecondCategory(false);
+    if (toggle) toggle('recent');
     setSelectedOption(main ? 'recent' : 'global');
     if (!main) {
-      setYearNameSpace(null);
+      if (setYearNameSpace) setYearNameSpace(null);
       navigate(`/memeDoc?page=1&namespace=1`);
     }
   };
@@ -430,9 +434,10 @@ export const SortButtonList = ({
   const handleToggleButton2 = () => {
     setFirstCategory(false);
     setSecondCategory(true);
+    if (toggle) toggle('popular');
     setSelectedOption(main ? 'popular' : 'year');
     if (!main) {
-      setGlobalNameSpace(null);
+      if (setGlobalNameSpace) setGlobalNameSpace(null);
       navigate(`/memeDoc?page=1&namespace=3`);
     }
   };
