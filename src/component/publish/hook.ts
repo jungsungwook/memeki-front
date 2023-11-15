@@ -5,7 +5,7 @@ import { useImageUploadMutation } from '../../store/controller/imageController';
 
 export const useThumbnailLogic = () => {
   const thumbnailInitUrl =
-    'https://objectstorage.ap-seoul-1.oraclecloud.com/p/8FeadVUlYuHr-XPfBEUzjJVb_6J5ruYfrpQUfRHLsVEWKe3D-z6PKwcSbQnG9PWB/n/cnji5mgpam1z/b/memeki-bukket/o/thumbnail_default_memeki_dhXLIYkxPA.png';
+    'https://i.memeki.kr/thumbnail_default_memeki_dhXLIYkxPA.png';
   const [thumbnail, setThumbnail] = useState(thumbnailInitUrl);
   const { accessToken } = useSelector(selectUser);
   const [imgUpload, { isLoading }] = useImageUploadMutation();
