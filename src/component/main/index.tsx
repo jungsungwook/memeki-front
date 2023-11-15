@@ -12,10 +12,7 @@ import {
 import { Header2, Inner, Section, Title } from '../emotion/GlobalStyle';
 import { Header } from '../emotion/Header';
 import { ApiFetcher } from '../../util/util';
-import {
-  useGetNewPageQuery,
-  useGetPopularPageQuery,
-} from '../../store/controller/pageController';
+import { useGetTypePageQuery } from '../../store/controller/pageController';
 import { selectUser } from '../../store/slice/userSlice';
 
 const Index = () => {
@@ -23,7 +20,6 @@ const Index = () => {
   const location = useLocation();
   const [toggle, setToggle] = React.useState('recent');
   const [category, setCategory] = React.useState('week');
-  const [listData, setListData] = React.useState([]);
   const queryUrl = `limit=10&page=1`;
 
   const handleToggle = (data: any) => {
@@ -34,26 +30,7 @@ const Index = () => {
     setCategory(data);
   };
 
-  useEffect(() => {
-    const fetchListData = async () => {
-      try {
-        const data =
-          toggle === 'recent'
-            ? await useGetNewPageQuery({ accessToken, queryUrl })
-            : await useGetPopularPageQuery({
-                accessToken,
-                type: category,
-                queryUrl,
-              });
-
-        setListData(data.contents.page);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchListData();
-  }, [toggle, category]);
+  useEffect(() => {}, [toggle, category]);
 
   return (
     <Inner>
@@ -84,18 +61,31 @@ const Index = () => {
           toggle={handleToggle}
           setYearNameSpace={handleCategory}
         />
-        {listData.map((meme: any) => (
-          <MemeBox
-            key={meme.id}
-            id={meme.id}
-            type="auth"
-            thumbnail={meme.thumbnail}
-            title={meme.title}
-            createdAt={meme.createdAt}
-            isLiked={meme.is_liked}
-            likeCount={meme.like_count}
-          />
-        ))}
+        <ApiFetcher
+          query={useGetTypePageQuery({
+            accessToken,
+            queryUrl:
+              toggle === 'recent' ? queryUrl : `${queryUrl}&type=${category}`,
+            type: toggle,
+          })}
+        >
+          {(ListData) => (
+            <MemeBoxList>
+              {ListData.contents.page.map((meme: any) => (
+                <MemeBox
+                  key={meme.id}
+                  id={meme.id}
+                  type="auth"
+                  thumbnail={meme.thumbnail}
+                  title={meme.title}
+                  createdAt={meme.createdAt}
+                  isLiked={meme.is_liked}
+                  likeCount={meme.like_count}
+                />
+              ))}
+            </MemeBoxList>
+          )}
+        </ApiFetcher>
       </Section>
     </Inner>
   );
