@@ -423,10 +423,10 @@ export const SortButtonList = ({
   const handleToggleButton1 = () => {
     setFirstCategory(true);
     setSecondCategory(false);
-    toggle('recent');
+    if (toggle) toggle('recent');
     setSelectedOption(main ? 'recent' : 'global');
     if (!main) {
-      setYearNameSpace(null);
+      if (setYearNameSpace) setYearNameSpace(null);
       navigate(`/memeDoc?page=1&namespace=1`);
     }
   };
@@ -434,10 +434,10 @@ export const SortButtonList = ({
   const handleToggleButton2 = () => {
     setFirstCategory(false);
     setSecondCategory(true);
-    toggle('popular');
+    if (toggle) toggle('popular');
     setSelectedOption(main ? 'popular' : 'year');
     if (!main) {
-      setGlobalNameSpace(null);
+      if (setGlobalNameSpace) setGlobalNameSpace(null);
       navigate(`/memeDoc?page=1&namespace=3`);
     }
   };
